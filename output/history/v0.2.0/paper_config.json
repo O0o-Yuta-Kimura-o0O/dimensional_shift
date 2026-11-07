@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "version": "v0.2.0",
+  "date": "2026-11-07",
+  "authors": [
+    "木村祐太",
+    "GPT-6 Astra（AI）"
+  ],
+  "titles": {
+    "ja": "独立座標生成による次元拡張と\n全体集合に依存する集合値の商",
+    "en": "Dimension Extension by Independent Coordinate Generation\nand Universe-Relative Set-Valued Quotients"
+  },
+  "subtitles": {
+    "ja": "可変長の座標構造・零除算・離散格子の統一的記述",
+    "en": "A framework for variable-length coordinates, division by zero, and discrete grids"
+  },
+  "headers": {
+    "ja": "独立座標生成と集合値の商",
+    "en": "Independent coordinate generation and set-valued quotients"
+  }
+}

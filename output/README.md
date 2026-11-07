@@ -6,9 +6,14 @@
 
 | パス | 内容 | 更新方法 |
 |---|---|---|
-| `current/dimensional_shift.typ` | 最新の編集用原稿 | 改稿時に編集 |
-| `current/dimensional_shift.pdf` | 最新の組版PDF | 原稿から再生成 |
-| `history/<version>/` | 確定版の原稿・PDF・メタデータ | 新しい版を追加。既存版は上書きしない |
+| `current/dimensional_shift.typ` | 日本語の基準原稿 | 改稿時に編集 |
+| `current/dimensional_shift_en.typ` | 対応する英語原稿 | 日本語版と同時に更新 |
+| `current/dimensional_shift{,_en}.pdf` | 日英の組版PDF | 各言語の原稿から再生成 |
+| `current/dimensional_shift{,_en}.md` | 日英のMarkdown | エクスポーターで生成。直接編集しない |
+| `current/paper_config.json` | 共通の版番号・日付・著者など | 改訂時に更新 |
+| `current/equations.json` | Typst/Markdown共通の数式辞書 | 数式の変更時に更新 |
+| `history/<version>/` | 確定版の成果物・設定・メタデータ | 新しい版を追加。既存版は上書きしない |
+| `discussion/` | 対話記録の将来の管理方針と版対応表 | 対応する版や方針が変わるときに更新 |
 | `reference/dimensional_shift_01_original.txt` | 受領した原メモの保存用コピー | 変更しない |
 | `reference/editorial_decisions.md` | 原メモからの整理方針 | 方針変更時に記録 |
 | `CHANGELOG.md` | 各版の変更理由と内容 | 版を確定するたびに追記 |
@@ -22,18 +27,18 @@ python3 -m pip install -r requirements-build.txt
 python3 scripts/build_paper.py --preview-dir tmp/pdfs/review
 ```
 
-`--preview-dir` を指定すると、PDFと同じ原稿から全ページの確認用PNGを生成します。中間画像はGit管理の対象外です。
+ビルドは最初に `scripts/export_markdown.py` の `export_all(ROOT)` を呼び、日英のMarkdownを生成します。その後、両言語のPDFを組版します。`--preview-dir` を指定すると、同じ原稿から全ページの確認用PNGを `ja/` と `en/` のサブフォルダに生成します。中間画像はGit管理の対象外です。
 
 以下のコマンドはリポジトリのルートで実行します。
 
-1. `current/dimensional_shift.typ` を編集し、原稿内の版番号・日付も更新します。
-2. `python3 scripts/build_paper.py` でPDFを再生成します。組版に必要な環境は同スクリプトの案内に従います。
-3. PDFの全ページを確認し、数式・日本語・改ページ・参考文献を検査します。
-4. `output/CHANGELOG.md` に変更内容と理由を記録します。
+1. 日本語Typst原稿を編集し、英語Typst原稿の定義・仮定・命題・証明・例も対応させます。数式の変更は `current/equations.json` に反映し、本文から `#m("id")`（インライン）または `#eq("id")`（独立表示）で参照します。
+2. `current/paper_config.json` の版番号・日付を更新し、`python3 scripts/build_paper.py --preview-dir tmp/pdfs/review` でMarkdownとPDFを再生成します。
+3. 日英PDFの全ページを確認し、数式・文字・改ページ・参考文献を検査します。両Markdownの内容、数式、見出しも確認し、各言語のPDFと意味が一致することを確かめます。日英間の意味の一致も別途確認します。
+4. `output/CHANGELOG.md` に変更内容と理由を記録し、`output/discussion/version_map.json` に該当版と話題の対応を追加します。対話を未書き出しの場合は、その状態を維持して明記します。
 5. 新しい版番号を使い、確定版を保存します。
 
    ```bash
-   python3 scripts/snapshot.py --version v0.1.1 --summary '変更内容を簡潔に記述'
+   python3 scripts/snapshot.py --version v0.2.1 --summary '変更内容を簡潔に記述'
    ```
 
 6. 差分を確認し、対象ファイルを明示してGitに記録します。
@@ -41,17 +46,29 @@ python3 scripts/build_paper.py --preview-dir tmp/pdfs/review
    ```bash
    git diff --check
    git status --short
-   git add output/current output/history/v0.1.1 output/CHANGELOG.md
-   git commit -m 'Revise paper to v0.1.1'
+   git add output/current output/history/v0.2.1 output/CHANGELOG.md output/discussion/version_map.json
+   git commit -m 'Revise paper to v0.2.1'
+   git tag -a v0.2.1 -m 'Paper v0.2.1'
    git push origin main
+   git push origin v0.2.1
    ```
 
 原稿以外も変更した場合は、そのファイルも確認したうえで追加します。共有先に新しいコミットがある場合は、内容を取り込んでからpushします。過去の履歴を上書きするforce pushは通常の運用に含みません。
 
 ## 版番号と検証情報
 
-初版は `v0.1.0`（2026-11-07）です。文章や誤記の修正では末尾の番号、定義・主張・構成の変更では必要に応じて中位の番号を進めます。版番号は原稿・変更履歴・保存先でそろえます。
+初版は `v0.1.0`、日英・PDF/Markdown対応版は `v0.2.0`（いずれも2026-11-07）です。文章や誤記の修正では末尾の番号、定義・主張・構成の変更では必要に応じて中位の番号を進めます。版番号は共通設定・変更履歴・保存先・Gitタグでそろえます。
 
-`scripts/snapshot.py` は、原稿とPDFの存在、PDFのヘッダー、原メモと保存用コピーの一致を確認します。`metadata.json` は版番号、JSTの保存時刻、変更概要、著者、各ファイルのSHA-256とバイト数、原メモのSHA-256を含みます。PDFの数学的な正しさや組版品質は、このスクリプトでは判定しません。
+`scripts/snapshot.py` は日英のTypst・PDF・Markdown、共通設定、数式辞書の8ファイルを保存します。版対応表がある場合は `discussion/version_map.json` として同じ保存版にコピーします。共通設定との版番号一致、各ファイルの存在、両PDFのヘッダー、原メモと保存用コピーの一致を確認します。
+
+`metadata.json` は版番号、JSTの保存時刻、変更概要、著者、各ファイルの言語・形式・SHA-256・バイト数、原メモのSHA-256を含みます。数学的な正しさ、日英翻訳の正確さ、PDFの組版品質は、このスクリプトでは判定しません。旧版の保存内容は、その版の時点の形式のまま維持します。
 
 保存処理は一時ディレクトリでコピーとメタデータを完成させてから、版ディレクトリへ移します。既存の版番号を指定すると失敗します。修正が必要な場合は新しい版を作成してください。
+
+## 保存版の再組版
+
+保存版のPDFとMarkdownは直接閲覧できます。Typst原稿は共通のスタイルや数式処理をリポジトリ内の絶対ルートから参照するため、`history/` のコピーだけを単独で組版する運用は用意していません。対応するGitタグを別の作業ツリーなどでチェックアウトし、そのタグの `output/current/` と `scripts/` を使って再組版します。
+
+## 対話記録の扱い
+
+`discussion/README.md` に将来の逐語記録・公開の方針を定めています。現時点では対話本文をエクスポートしておらず、公開も行っていません。要約である話題対応表を全文記録として扱わないでください。

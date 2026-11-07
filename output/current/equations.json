@@ -1,0 +1,294 @@
+{
+  "R": {
+    "typst": "bb(R)",
+    "latex": "\\mathbb{R}"
+  },
+  "C": {
+    "typst": "bb(C)",
+    "latex": "\\mathbb{C}"
+  },
+  "Z": {
+    "typst": "bb(Z)",
+    "latex": "\\mathbb{Z}"
+  },
+  "K": {
+    "typst": "K",
+    "latex": "K"
+  },
+  "U": {
+    "typst": "U",
+    "latex": "U"
+  },
+  "Un": {
+    "typst": "U^n",
+    "latex": "U^n"
+  },
+  "U0": {
+    "typst": "U^0=\\{()\\}",
+    "latex": "U^0=\\{()\\}"
+  },
+  "setting": {
+    "typst": "0 in U subset.eq K",
+    "latex": "0\\in U\\subseteq K"
+  },
+  "state": {
+    "typst": "(n,S), quad n in bb(N)_0, quad S subset.eq U^n",
+    "latex": "(n,S),\\qquad n\\in\\mathbb{N}_0,\\qquad S\\subseteq U^n"
+  },
+  "lift": {
+    "typst": "L_U (n,S):=(n+1,S times U)",
+    "latex": "L_U(n,S):=(n+1,S\\times U)"
+  },
+  "concat": {
+    "typst": "(x_1,dots,x_n,t), quad (x_1,dots,x_n) in S, quad t in U",
+    "latex": "(x_1,\\ldots,x_n,t),\\qquad(x_1,\\ldots,x_n)\\in S,\\qquad t\\in U"
+  },
+  "iterate": {
+    "typst": "L_U^k (n,S)=(n+k,S times U^k)",
+    "latex": "L_U^k(n,S)=(n+k,S\\times U^k)"
+  },
+  "initial": {
+    "typst": "L_U^k (0,\\{()\\})=(k,U^k)",
+    "latex": "L_U^k(0,\\{()\\})=(k,U^k)"
+  },
+  "emptylift": {
+    "typst": "L_U (n,emptyset)=(n+1,emptyset)",
+    "latex": "L_U(n,\\varnothing)=(n+1,\\varnothing)"
+  },
+  "affine": {
+    "typst": "S=p+V",
+    "latex": "S=p+V"
+  },
+  "dimdef": {
+    "typst": "dim S:=dim V",
+    "latex": "\\dim S:=\\dim V"
+  },
+  "real_lift_dim": {
+    "typst": "dim(S times bb(R))=dim S+1",
+    "latex": "\\dim(S\\times\\mathbb{R})=\\dim S+1"
+  },
+  "affine_lift": {
+    "typst": "S times bb(R)=(p,0)+(V times bb(R))",
+    "latex": "S\\times\\mathbb{R}=(p,0)+(V\\times\\mathbb{R})"
+  },
+  "real_sequence": {
+    "typst": "(0,\\{()\\}) arrow^(L_(bb(R))) (1,bb(R)) arrow^(L_(bb(R))) (2,bb(R)^2) arrow^(L_(bb(R))) (3,bb(R)^3) arrow dots",
+    "latex": "(0,\\{()\\})\\xrightarrow{L_{\\mathbb{R}}}(1,\\mathbb{R})\\xrightarrow{L_{\\mathbb{R}}}(2,\\mathbb{R}^2)\\xrightarrow{L_{\\mathbb{R}}}(3,\\mathbb{R}^3)\\longrightarrow\\cdots"
+  },
+  "repeat_variable": {
+    "typst": "\\{(t,t) | t in bb(R)\\}",
+    "latex": "\\{(t,t)\\mid t\\in\\mathbb{R}\\}"
+  },
+  "independent_variables": {
+    "typst": "\\{(t,u) | t,u in bb(R)\\}=bb(R)^2",
+    "latex": "\\{(t,u)\\mid t,u\\in\\mathbb{R}\\}=\\mathbb{R}^2"
+  },
+  "pointa": {
+    "typst": "\\{a\\} subset.eq bb(R)",
+    "latex": "\\{a\\}\\subseteq\\mathbb{R}"
+  },
+  "Qdef": {
+    "typst": "Q_U (a,b):=\\{x in U | b x=a\\}, quad a,b in K",
+    "latex": "Q_U(a,b):=\\{x\\in U\\mid bx=a\\},\\qquad a,b\\in K"
+  },
+  "Qtype": {
+    "typst": "Q_U:K^2 arrow cal(P)(U)",
+    "latex": "Q_U:K^2\\to\\mathcal{P}(U)"
+  },
+  "multmap": {
+    "typst": "m_b:U arrow K, quad m_b (x)=b x",
+    "latex": "m_b:U\\to K,\\qquad m_b(x)=bx"
+  },
+  "preimage": {
+    "typst": "Q_U (a,b)=m_b^(-1)(\\{a\\})",
+    "latex": "Q_U(a,b)=m_b^{-1}(\\{a\\})"
+  },
+  "Qcases": {
+    "typst": "Q_U (a,b)=cases(\\{a/b\\} inter U & quad b != 0, U & quad a=b=0, emptyset & quad b=0 and a != 0)",
+    "latex": "Q_U(a,b)=\\begin{cases}\\{a/b\\}\\cap U,&b\\ne0,\\\\U,&a=b=0,\\\\\\varnothing,&b=0,\\ a\\ne0.\\end{cases}"
+  },
+  "Qzero": {
+    "typst": "Q_U (0,0)=U",
+    "latex": "Q_U(0,0)=U"
+  },
+  "eta": {
+    "typst": "eta_U (a):=Q_U (a,0)",
+    "latex": "\\eta_U(a):=Q_U(a,0)"
+  },
+  "example_universes": {
+    "typst": "Q_(bb(R)) (0,0)=bb(R), quad Q_(bb(Z)) (0,0)=bb(Z), quad Q_(D_m) (0,0)=D_m",
+    "latex": "Q_{\\mathbb{R}}(0,0)=\\mathbb{R},\\qquad Q_{\\mathbb{Z}}(0,0)=\\mathbb{Z},\\qquad Q_{D_m}(0,0)=D_m"
+  },
+  "integer_half": {
+    "typst": "Q_(bb(Z)) (1,2)=emptyset",
+    "latex": "Q_{\\mathbb{Z}}(1,2)=\\varnothing"
+  },
+  "real_half": {
+    "typst": "Q_(bb(R)) (1,2)=\\{1/2\\}",
+    "latex": "Q_{\\mathbb{R}}(1,2)=\\{1/2\\}"
+  },
+  "setQ": {
+    "typst": "cal(Q)_U (A,B):=union.big_(a in A,b in B) Q_U (a,b), quad A,B subset.eq K",
+    "latex": "\\mathcal{Q}_U(A,B):=\\bigcup_{a\\in A,\\,b\\in B}Q_U(a,b),\\qquad A,B\\subseteq K"
+  },
+  "Edef": {
+    "typst": "E_U (A):=cal(Q)_U (A,\\{0\\})",
+    "latex": "E_U(A):=\\mathcal{Q}_U(A,\\{0\\})"
+  },
+  "Ecases": {
+    "typst": "E_U (A)=cases(U & quad 0 in A, emptyset & quad 0 in.not A), quad E_U (E_U (A))=E_U (A)",
+    "latex": "E_U(A)=\\begin{cases}U,&0\\in A,\\\\\\varnothing,&0\\notin A,\\end{cases}\\qquad E_U(E_U(A))=E_U(A)"
+  },
+  "eta_loss": {
+    "typst": "eta_U (1)=eta_U (-1)=emptyset",
+    "latex": "\\eta_U(1)=\\eta_U(-1)=\\varnothing"
+  },
+  "bad_eta": {
+    "typst": "eta_U (a)+eta_U (b)=eta_U (a+b)",
+    "latex": "\\eta_U(a)+\\eta_U(b)=\\eta_U(a+b)"
+  },
+  "liftQ": {
+    "typst": "L_U (n,S)=(n+1,S times Q_U (0,0))",
+    "latex": "L_U(n,S)=(n+1,S\\times Q_U(0,0))"
+  },
+  "controlled_lift": {
+    "typst": "G_(U,lambda) (n,S):=(n+1,S times Q_U (0,lambda))",
+    "latex": "G_{U,\\lambda}(n,S):=(n+1,S\\times Q_U(0,\\lambda))"
+  },
+  "controlled_cases": {
+    "typst": "G_(U,lambda) (n,S)=cases((n+1,S times\\{0\\}) & quad lambda != 0, (n+1,S times U) & quad lambda=0)",
+    "latex": "G_{U,\\lambda}(n,S)=\\begin{cases}(n+1,S\\times\\{0\\}),&\\lambda\\ne0,\\\\(n+1,S\\times U),&\\lambda=0.\\end{cases}"
+  },
+  "fixed_diag": {
+    "typst": "S_d:=\\{x in bb(R)^n | d_i x_i=0, quad i=1,dots,n\\}",
+    "latex": "S_d:=\\{x\\in\\mathbb{R}^n\\mid d_i x_i=0,\\ i=1,\\ldots,n\\}"
+  },
+  "diag_dim": {
+    "typst": "dim S_d=|\\{i in\\{1,dots,n\\} | d_i=0\\}|",
+    "latex": "\\dim S_d=\\lvert\\{i\\in\\{1,\\ldots,n\\}\\mid d_i=0\\}\\rvert"
+  },
+  "fiber": {
+    "typst": "F_A (b):=\\{x in bb(R)^n | A x=b\\}",
+    "latex": "F_A(b):=\\{x\\in\\mathbb{R}^n\\mid Ax=b\\}"
+  },
+  "fiber_dim": {
+    "typst": "F_A (b)=x_0+ker A, quad dim F_A (b)=n-op(\"rank\") A",
+    "latex": "F_A(b)=x_0+\\ker A,\\qquad\\dim F_A(b)=n-\\operatorname{rank}A"
+  },
+  "b_in_image": {
+    "typst": "b in op(\"im\") A",
+    "latex": "b\\in\\operatorname{im}A"
+  },
+  "restriction": {
+    "typst": "S^prime:=\\{x in p+V | T x=c\\}",
+    "latex": "S^{\\prime}:=\\{x\\in p+V\\mid Tx=c\\}"
+  },
+  "restriction_dim": {
+    "typst": "dim S^prime=dim V-op(\"rank\")(T|_V)",
+    "latex": "\\dim S^{\\prime}=\\dim V-\\operatorname{rank}(T|_V)"
+  },
+  "restriction_affine": {
+    "typst": "S^prime=x_0+(V inter ker T)",
+    "latex": "S^{\\prime}=x_0+(V\\cap\\ker T)"
+  },
+  "constraint_example": {
+    "typst": "bb(R)^2 arrow^(y=0) bb(R) times\\{0\\} arrow^(x=a)\\{(a,0)\\}",
+    "latex": "\\mathbb{R}^2\\xrightarrow{y=0}\\mathbb{R}\\times\\{0\\}\\xrightarrow{x=a}\\{(a,0)\\}"
+  },
+  "square": {
+    "typst": "0<=x<=1, quad 0<=y<=1",
+    "latex": "0\\le x\\le1,\\qquad0\\le y\\le1"
+  },
+  "paired_inequalities": {
+    "typst": "y<=0, quad y>=0",
+    "latex": "y\\le0,\\qquad y\\ge0"
+  },
+  "Dm": {
+    "typst": "D_m:=\\{-m,-m+1,dots,m\\}, quad m in bb(N), quad m>=1",
+    "latex": "D_m:=\\{-m,-m+1,\\ldots,m\\},\\qquad m\\in\\mathbb{N},\\quad m\\ge1"
+  },
+  "finite_grid": {
+    "typst": "L_(D_m)^3 (0,\\{()\\})=(3,D_m^3), quad |D_m^3|=(2m+1)^3",
+    "latex": "L_{D_m}^{3}(0,\\{()\\})=(3,D_m^3),\\qquad\\lvert D_m^3\\rvert=(2m+1)^3"
+  },
+  "sample_points": {
+    "typst": "(i,j,k) in D_m^3",
+    "latex": "(i,j,k)\\in D_m^3"
+  },
+  "grid_sequence": {
+    "typst": "D_m arrow D_m^2 arrow D_m^3",
+    "latex": "D_m\\longrightarrow D_m^2\\longrightarrow D_m^3"
+  },
+  "integer_grid": {
+    "typst": "bb(Z)^3",
+    "latex": "\\mathbb{Z}^3"
+  },
+  "grid_hull": {
+    "typst": "op(\"aff\")_(bb(R)) (D_m^n)=bb(R)^n",
+    "latex": "\\operatorname{aff}_{\\mathbb{R}}(D_m^n)=\\mathbb{R}^n"
+  },
+  "display_map": {
+    "typst": "pi_n:K^n arrow bb(R)^3",
+    "latex": "\\pi_n:K^n\\to\\mathbb{R}^3"
+  },
+  "complex_dims": {
+    "typst": "dim_(bb(C)) (bb(C))=1, quad dim_(bb(R)) (bb(C))=2",
+    "latex": "\\dim_{\\mathbb{C}}\\mathbb{C}=1,\\qquad\\dim_{\\mathbb{R}}\\mathbb{C}=2"
+  },
+  "sum_def": {
+    "typst": "A+B:=\\{a+b | a in A,b in B\\}",
+    "latex": "A+B:=\\{a+b\\mid a\\in A,\\ b\\in B\\}"
+  },
+  "product_def": {
+    "typst": "A dot B:=\\{a b | a in A,b in B\\}",
+    "latex": "A\\cdot B:=\\{ab\\mid a\\in A,\\ b\\in B\\}"
+  },
+  "share_difference": {
+    "typst": "\\{x-x | x in bb(R)\\}=\\{0\\}, quad bb(R)-bb(R)=bb(R)",
+    "latex": "\\{x-x\\mid x\\in\\mathbb{R}\\}=\\{0\\},\\qquad\\mathbb{R}-\\mathbb{R}=\\mathbb{R}"
+  },
+  "singletonU": {
+    "typst": "U=\\{0\\}",
+    "latex": "U=\\{0\\}"
+  },
+  "powersetK": {
+    "typst": "cal(P)(K)",
+    "latex": "\\mathcal{P}(K)"
+  },
+  "two_empty_states": {
+    "typst": "(1,emptyset)!=(2,emptyset)",
+    "latex": "(1,\\varnothing)\\ne(2,\\varnothing)"
+  },
+  "nonzero": {
+    "typst": "a!=0",
+    "latex": "a\\ne0"
+  },
+  "nplusone": {
+    "typst": "n+1",
+    "latex": "n+1"
+  },
+  "Sn": {
+    "typst": "S subset.eq U^n",
+    "latex": "S\\subseteq U^n"
+  },
+  "Realn": {
+    "typst": "bb(R)^n",
+    "latex": "\\mathbb{R}^n"
+  },
+  "n": {
+    "typst": "n",
+    "latex": "n"
+  },
+  "dimension": {
+    "typst": "dim",
+    "latex": "\\dim"
+  },
+  "control_setting": {
+    "typst": "0 in U subset.eq K, quad lambda in K",
+    "latex": "0\\in U\\subseteq K,\\qquad\\lambda\\in K"
+  },
+  "d_setting": {
+    "typst": "d=(d_1,dots,d_n) in bb(R)^n",
+    "latex": "d=(d_1,\\ldots,d_n)\\in\\mathbb{R}^n"
+  }
+}

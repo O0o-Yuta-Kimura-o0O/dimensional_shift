@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "description": "論文版と話題の要約の対応表。対話の逐語記録ではない。",
+  "versions": [
+    {
+      "version": "v0.1.0",
+      "tag": "v0.1.0",
+      "topics": [
+        "0除算を乗算方程式の解集合として定義",
+        "直積による次元上昇と条件による制限",
+        "元の引数の復元を要求しない整理",
+        "論文化と非公開リポジトリでの履歴管理"
+      ],
+      "status": "not_exported",
+      "transcript": null,
+      "public": false
+    },
+    {
+      "version": "v0.2.0",
+      "tag": "v0.2.0",
+      "topics": [
+        "値の候補集合Uを明示した集合値の商",
+        "新しい独立座標を生成する演算",
+        "有限離散格子と座標数・連続的次元の区別",
+        "日英のPDFとMarkdownの対応",
+        "将来の対話記録・公開と論文タグの関連付け"
+      ],
+      "status": "not_exported",
+      "transcript": null,
+      "public": false
+    }
+  ]
+}

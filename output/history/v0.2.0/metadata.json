@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "version": "v0.2.0",
+  "git_tag": "v0.2.0",
+  "paper_date": "2026-11-07",
+  "created_at": "2026-11-07T12:49:08+09:00",
+  "timezone": "Asia/Tokyo",
+  "summary": "独立座標生成を中心とした再構成、全体集合Uと離散格子の明示、日英PDF・Markdown対応",
+  "authors": [
+    "木村祐太",
+    "GPT-6 Astra（AI）"
+  ],
+  "languages": [
+    "ja",
+    "en"
+  ],
+  "reader_formats": [
+    "pdf",
+    "markdown"
+  ],
+  "rebuild": "Check out the corresponding Git tag to restore shared build scripts and styles.",
+  "files": [
+    {
+      "path": "dimensional_shift.typ",
+      "language": "ja",
+      "format": "typst",
+      "sha256": "26dab3a9c0819d2f339a50e4f3b50e6e31b9b6ae63b41314f5f4831d50fbe3db",
+      "bytes": 15173
+    },
+    {
+      "path": "dimensional_shift.pdf",
+      "language": "ja",
+      "format": "pdf",
+      "sha256": "7d4c00102b86c58b41810c22e655d6fc3585fb54e120f23391fe494c94ec521b",
+      "bytes": 362352
+    },
+    {
+      "path": "dimensional_shift.md",
+      "language": "ja",
+      "format": "markdown",
+      "sha256": "4b1f9c650b7991b736b0623c0c7bd6d2fb20c42a847eeb5de768d29310e9deea",
+      "bytes": 17225
+    },
+    {
+      "path": "dimensional_shift_en.typ",
+      "language": "en",
+      "format": "typst",
+      "sha256": "d46f794e78086a0bf2a12efd7086b0f62312646152c2babbdce6e614fbd6268e",
+      "bytes": 15759
+    },
+    {
+      "path": "dimensional_shift_en.pdf",
+      "language": "en",
+      "format": "pdf",
+      "sha256": "f72b0579b6bde5333a1785182df646f19642bd5e93b13fa5729e68667bbacf27",
+      "bytes": 140262
+    },
+    {
+      "path": "dimensional_shift_en.md",
+      "language": "en",
+      "format": "markdown",
+      "sha256": "9aadc95106c01e1ad8e0f181dc1d16efbee4f6bcb139811ef5d49c1aa53b8dd7",
+      "bytes": 17832
+    },
+    {
+      "path": "paper_config.json",
+      "language": null,
+      "format": "json",
+      "sha256": "0a6a3f6da4755e2c18bacc37674fed22b47a9b86c5c12eac81c4894d5933f9ce",
+      "bytes": 711
+    },
+    {
+      "path": "equations.json",
+      "language": null,
+      "format": "json",
+      "sha256": "969fac126ca4391c5374ba055f48ce9c4650405697e2e16b5ab7db4148e7f9a4",
+      "bytes": 9059
+    },
+    {
+      "path": "discussion/version_map.json",
+      "language": null,
+      "format": "json",
+      "sha256": "2e91c1c2737f0fd8dc3bdbbf5fe26f9b02a4d1685651089eb9e7b82d93363e1a",
+      "bytes": 1033
+    }
+  ],
+  "original_memo": {
+    "path": "origin/dimensional_shift_01.txt",
+    "reference_copy": "output/reference/dimensional_shift_01_original.txt",
+    "sha256": "49804cdfa79e778a9204a81dce46fe201e75e31c69a135cd6ee929534cdd1a47",
+    "bytes": 85563
+  }
+}
