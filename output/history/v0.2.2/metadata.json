@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "version": "v0.2.2",
+  "git_tag": "v0.2.2",
+  "paper_date": "2026-11-07",
+  "created_at": "2026-11-07T16:06:44+09:00",
+  "timezone": "Asia/Tokyo",
+  "summary": "要旨と結論に、本稿の有限格子でも独立座標数と実アフィン包の次元が各適用でともに一つ増えることを日英で明記。格子と連続空間の区別を保持。日英PDF全12ページの画像確認とMarkdown対応確認を実施。",
+  "authors": [
+    "木村祐太",
+    "GPT-6 Astra（AI）"
+  ],
+  "languages": [
+    "ja",
+    "en"
+  ],
+  "reader_formats": [
+    "pdf",
+    "markdown"
+  ],
+  "rebuild": "Check out the corresponding Git tag to restore shared build scripts and styles.",
+  "files": [
+    {
+      "path": "dimensional_shift.typ",
+      "language": "ja",
+      "format": "typst",
+      "sha256": "b67b7e2435ea675708bbb90e51839f5a0ea6634bd555ea27f041cdd2b066e0d4",
+      "bytes": 16124
+    },
+    {
+      "path": "dimensional_shift.pdf",
+      "language": "ja",
+      "format": "pdf",
+      "sha256": "60122dad16f117089a8548f919172bcca61c624817b78cf2a5f9616d31f71286",
+      "bytes": 364018
+    },
+    {
+      "path": "dimensional_shift.md",
+      "language": "ja",
+      "format": "markdown",
+      "sha256": "e809ce341963d01c54787246c1cd01f15a3f783ebae648f6506766caea9aa435",
+      "bytes": 18190
+    },
+    {
+      "path": "dimensional_shift_en.typ",
+      "language": "en",
+      "format": "typst",
+      "sha256": "de2548a598d51276183eed5ab964a4204c29085dd95370bd1d4f48896a0aa1e8",
+      "bytes": 17018
+    },
+    {
+      "path": "dimensional_shift_en.pdf",
+      "language": "en",
+      "format": "pdf",
+      "sha256": "587b541f3690365fcef7a9f48986589c22333d2370c4f2d066b94cb38d0edcd8",
+      "bytes": 142020
+    },
+    {
+      "path": "dimensional_shift_en.md",
+      "language": "en",
+      "format": "markdown",
+      "sha256": "acf6bd9e358f98c31a639c9332cb4109875ecc15c76c5aa87d4722622f12d7c7",
+      "bytes": 19126
+    },
+    {
+      "path": "paper_config.json",
+      "language": null,
+      "format": "json",
+      "sha256": "af1b5c23d986e97375dbe4b11f503ee38beaf5295ad48cd6de45d5824d3a43cc",
+      "bytes": 691
+    },
+    {
+      "path": "equations.json",
+      "language": null,
+      "format": "json",
+      "sha256": "969fac126ca4391c5374ba055f48ce9c4650405697e2e16b5ab7db4148e7f9a4",
+      "bytes": 9059
+    },
+    {
+      "path": "discussion/version_map.json",
+      "language": null,
+      "format": "json",
+      "sha256": "03c5fe62a1e4a554b043220d2ed9ea67914c22464703cb2261b9137c558f5dc1",
+      "bytes": 6685
+    }
+  ],
+  "original_memo": {
+    "path": "origin/dimensional_shift_01.txt",
+    "reference_copy": "output/reference/dimensional_shift_01_original.txt",
+    "sha256": "49804cdfa79e778a9204a81dce46fe201e75e31c69a135cd6ee929534cdd1a47",
+    "bytes": 85563
+  }
+}

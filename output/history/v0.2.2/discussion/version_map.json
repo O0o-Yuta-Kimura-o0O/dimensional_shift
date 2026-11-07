@@ -1,0 +1,171 @@
+{
+  "schema_version": 2,
+  "description": "版・話題要約・取得元発言を対応づける編集用索引。要約は逐語記録ではない。",
+  "source_thread_id": "01a1b3dc-94e8-7f92-b068-2d95bf588f7c",
+  "current_publication_policy": {
+    "source": "公開作業中のユーザーの追加指定。今回の逐語記録の収録終点より後のため、本文に発言として追加していない。",
+    "policy": "閲覧ページは最新版だけを配信する。GitHubの過去ソース・コミット・タグは公開してよい。旧版のローカル保存も維持する。",
+    "is_editorial_metadata": true
+  },
+  "versions": [
+    {
+      "version": "v0.1.0",
+      "kind": "paper",
+      "tag": "v0.1.0",
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "0除算を乗算方程式の解集合として定義",
+        "直積による次元上昇と条件による制限",
+        "元の引数の復元を要求しない整理",
+        "論文化と非公開リポジトリでの履歴管理"
+      ],
+      "source_turn_ids": [
+        "01a1b3dc-9917-7ae3-97f7-0034397857b0",
+        "01a1b3e7-2ba0-7e80-8780-da1964ce0e05"
+      ],
+      "transcript_message_ordinals": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "status": "published_available_range",
+      "transcript": "transcript-2026-11-07.md",
+      "structured_transcript": "transcript-2026-11-07.json",
+      "public": true,
+      "transcript_url": "https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift/blob/main/output/discussion/transcript-2026-11-07.md"
+    },
+    {
+      "version": "v0.2.0",
+      "kind": "paper",
+      "tag": "v0.2.0",
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "独立座標を必要な都度生成する規則",
+        "値の候補集合Uを明示した集合値の商",
+        "有限離散格子と座標数・連続的次元の区別",
+        "日英のPDFとMarkdownの対応"
+      ],
+      "source_turn_ids": [
+        "01a1b3fc-4ac0-72c0-88f2-8ed78caf59a7",
+        "01a1b40f-ec50-73b3-b388-239e44d8e590"
+      ],
+      "transcript_message_ordinals": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "status": "published_available_range",
+      "transcript": "transcript-2026-11-07.md",
+      "structured_transcript": "transcript-2026-11-07.json",
+      "public": true,
+      "transcript_url": "https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift/blob/main/output/discussion/transcript-2026-11-07.md"
+    },
+    {
+      "version": "v0.2.1",
+      "kind": "paper",
+      "tag": "v0.2.1",
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "題名を「集合値の商による零除算の定義と解集合の次元変化」に変更",
+        "副題・要旨・導入・結論を日英で対応させる編集上の改訂",
+        "定義・命題・証明と独立座標生成の規則を維持"
+      ],
+      "source_turn_ids": [],
+      "transcript_message_ordinals": [],
+      "status": "not_exported",
+      "transcript": null,
+      "structured_transcript": null,
+      "public": false,
+      "source_note": "このチャットでのタイトル候補の相談と採用依頼に基づく編集上の要約。既存の逐語記録の収録終点より後のため対話本文は未収録。取得していない発言IDは記載しない。publicは対話本文の公開状態を指す。"
+    },
+    {
+      "version": "v0.2.2",
+      "kind": "paper",
+      "tag": "v0.2.2",
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "離散格子でも独立座標数と実アフィン包の次元が増えることの明確化",
+        "実アフィン空間そのものの次元と格子の実アフィン包の次元の区別",
+        "日英の要旨と結論への反映、PDFとMarkdownの更新"
+      ],
+      "source_turn_ids": [],
+      "transcript_message_ordinals": [],
+      "status": "not_exported",
+      "transcript": null,
+      "structured_transcript": null,
+      "public": false,
+      "source_note": "このチャットでの離散格子の次元増加に関する質問と要旨・結論の改訂依頼に基づく編集上の要約。既存の逐語記録の収録終点より後のため対話本文は未収録。取得していない発言IDは記載しない。publicは対話本文の公開状態を指す。"
+    },
+    {
+      "version": "visualizer-v0.1.0",
+      "kind": "source_history",
+      "tag": "visualizer-v0.1.0",
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "Lを適用する対話型表示",
+        "実数と格子の切り替え",
+        "高次元の投影と描画標本数"
+      ],
+      "source_turn_ids": [
+        "01a1b429-4fd2-7843-ae35-325f77d1f464"
+      ],
+      "transcript_message_ordinals": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "status": "published_available_range",
+      "transcript": "transcript-2026-11-07.md",
+      "structured_transcript": "transcript-2026-11-07.json",
+      "public": true,
+      "transcript_url": "https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift/blob/main/output/discussion/transcript-2026-11-07.md",
+      "artifact_public": true,
+      "artifact_policy": "GitHubの過去ソース・コミット・タグは公開してよい。閲覧ページは最新版のみ配信し、旧版のローカル保存も維持する。"
+    },
+    {
+      "version": "publication-request-2026-11-07",
+      "kind": "publication_request",
+      "tag": null,
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "対話記録とGitHubリポジトリの公開依頼",
+        "ビジュアライザーの最新版だけを公開し旧版をローカル保存する方針"
+      ],
+      "source_turn_ids": [
+        "01a1b448-396a-7b92-8cd2-f97c262d9812"
+      ],
+      "transcript_message_ordinals": [
+        28
+      ],
+      "status": "published_available_range",
+      "transcript": "transcript-2026-11-07.md",
+      "structured_transcript": "transcript-2026-11-07.json",
+      "public": true,
+      "transcript_url": "https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift/blob/main/output/discussion/transcript-2026-11-07.md"
+    }
+  ],
+  "cross_version_notes": [
+    {
+      "source_turn_id": "01a1b3fc-4ac0-72c0-88f2-8ed78caf59a7",
+      "description": "v0.1.0への問いを受け、v0.2.0の独立座標生成を前面に出す方針につながった移行期の対話。"
+    }
+  ]
+}

@@ -94,6 +94,24 @@
       "source_note": "このチャットでのタイトル候補の相談と採用依頼に基づく編集上の要約。既存の逐語記録の収録終点より後のため対話本文は未収録。取得していない発言IDは記載しない。publicは対話本文の公開状態を指す。"
     },
     {
+      "version": "v0.2.2",
+      "kind": "paper",
+      "tag": "v0.2.2",
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "離散格子でも独立座標数と実アフィン包の次元が増えることの明確化",
+        "実アフィン空間そのものの次元と格子の実アフィン包の次元の区別",
+        "日英の要旨と結論への反映、PDFとMarkdownの更新"
+      ],
+      "source_turn_ids": [],
+      "transcript_message_ordinals": [],
+      "status": "not_exported",
+      "transcript": null,
+      "structured_transcript": null,
+      "public": false,
+      "source_note": "このチャットでの離散格子の次元増加に関する質問と要旨・結論の改訂依頼に基づく編集上の要約。既存の逐語記録の収録終点より後のため対話本文は未収録。取得していない発言IDは記載しない。publicは対話本文の公開状態を指す。"
+    },
+    {
       "version": "visualizer-v0.1.0",
       "kind": "source_history",
       "tag": "visualizer-v0.1.0",
