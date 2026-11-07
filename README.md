@@ -4,6 +4,10 @@
 
 著者：**木村祐太・GPT-6 Astra（AI）**
 
+## 論文を読む
+
+**[論文の入口 → paper/](paper/README.md)** — 最新版 v0.2.0。各言語6ページです。
+
 | 言語 | PDF | Markdown | 編集用Typst原稿 |
 |---|---|---|---|
 | 日本語 | [PDF](output/current/dimensional_shift.pdf) | [Markdown](output/current/dimensional_shift.md) | [Typst](output/current/dimensional_shift.typ) |
@@ -17,9 +21,18 @@
 
 GitHub公開先：[O0o-Yuta-Kimura-o0O/dimensional_shift](https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift)。公開確認の状態と対話の収録範囲は [対話記録の案内](output/discussion/README.md) に記します。
 
+## ビジュアライザーと対話記録
+
+- **[ビジュアライザーを開く](https://dimensional-shift-l-visualizer.yummy-pig-6822.chatgpt.site)** — Lによる座標追加、実数／格子の切り替え、ドラッグ回転、ホイール拡大縮小。
+- [ビジュアライザーのソース・操作・版管理](visualizer/README.md)
+- [対話記録を読む](output/discussion/transcript-2026-11-07.md)
+- [プロジェクトの変更履歴](CHANGELOG.md)
+
 ## 管理する内容
 
 ```text
+paper/                          論文を読む入口（PDF・Markdown・保存版へのリンク）
+visualizer/                     ビジュアライザーの実装・検証・変更履歴
 origin/                         受領した原メモ（変更せず保存）
 output/
   current/                      日英Typst・PDF・Markdownと共通設定・数式辞書
@@ -28,10 +41,13 @@ output/
   reference/                    原メモの保存用コピーと編集方針
   CHANGELOG.md                  版ごとの変更内容
 scripts/                        組版と版保存の補助スクリプト
-visualizer/                     Lの表示ソース・検証コード（history/ の保存版はローカルのみ）
+.local/                         ローカルの配信作業・バックアップ（Git対象外）
+tmp/                            表示確認用ページ・検証画像（Git対象外）
 ```
 
 `output/current/` は改稿の作業対象です。PDFとMarkdownは各言語のTypst原稿から生成し、共通の数式辞書を使います。Markdownを直接編集しません。日英間の意味の一致は原稿レビューで確認します。
+
+`paper/` は閲覧入口、`output/current/` は実体、`output/history/` は変更しない保存版です。参照先を安定させるために既存ファイルは移動せず、一つの原稿から生成する構成を維持しています。ビジュアライザーの旧版スナップショット `visualizer/history/` と `.local/` はローカルだけに保存します。
 
 確定した版は `output/history/` に保存し、過去の版を上書きしません。Gitのコミット履歴に加えて、各保存版の `metadata.json` にファイルのSHA-256・バイト数・言語・形式・作成時刻・版番号を記録します。組版を再現するときは、対応するGitタグをチェックアウトして共通スクリプトとスタイルも復元します。
 

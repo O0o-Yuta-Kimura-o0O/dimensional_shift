@@ -1,9 +1,9 @@
 {
-  "version": "visualizer-v0.1.1",
+  "version": "visualizer-v0.2.0",
   "paper_version": "v0.2.0",
   "date": "2026-11-07",
   "public_url": "https://dimensional-shift-l-visualizer.yummy-pig-6822.chatgpt.site",
   "public_policy": "hosted page latest only; GitHub source history public",
   "history_policy": "public Git history and local snapshots",
-  "standalone_sha256": "af8558e5c8b377bb572262e549555ec9e30416a96596e913cc54033cd20ed85a"
+  "standalone_sha256": "ddb6cc801b44bf0bacf40d506a6c9a5975811b3845895de5cfdf1e16ce3802c8"
 }

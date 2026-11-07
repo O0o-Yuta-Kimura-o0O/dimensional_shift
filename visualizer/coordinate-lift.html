@@ -21,6 +21,16 @@
     <span id="lift-window">表示：各座標 −1〜1</span>
     <span id="lift-projection">0座標・点</span>
   </div>
+  <div class="viz-row">
+    <span class="text-small text-muted">ドラッグ：回転 · ホイール：拡大・縮小</span>
+    <div class="viz-row">
+      <button type="button" class="btn" id="lift-zoom-out" aria-label="縮小">−</button>
+      <output id="lift-zoom" class="tabular-nums" aria-label="表示倍率">100%</output>
+      <button type="button" class="btn" id="lift-zoom-in" aria-label="拡大">＋</button>
+      <button type="button" class="btn" id="lift-view-reset" aria-describedby="lift-view-help">視点を戻す</button>
+      <span id="lift-view-help" class="sr-only">このボタンにフォーカスして矢印キーを押すと回転します。Enterで初期の向きと倍率に戻ります。座標数は変わりません。</span>
+    </div>
+  </div>
   <svg class="lift-scene" role="img" aria-labelledby="lift-scene-title lift-scene-desc">
     <title id="lift-scene-title">Lによる独立座標の生成</title>
     <desc id="lift-scene-desc">初期状態は空の座標列ただ一つからなる点です。</desc>
@@ -34,7 +44,8 @@
   #coordinate-lift-v1 h2 { padding-right: 94px; }
   #coordinate-lift-v1 .lift-status { gap: calc(var(--font-size-base) * 1.1); }
   #coordinate-lift-v1 #lift-count { font-weight: 500; }
-  #coordinate-lift-v1 .lift-scene { display: block; width: 100%; height: 340px; overflow: hidden; }
+  #coordinate-lift-v1 .lift-scene { display: block; width: 100%; height: 340px; overflow: hidden; touch-action: none; user-select: none; cursor: grab; }
+  #coordinate-lift-v1 .lift-scene.is-dragging { cursor: grabbing; }
   #coordinate-lift-v1 .lift-scene .extent { fill: var(--viz-series-1); fill-opacity: .10; stroke: none; }
   #coordinate-lift-v1 .lift-scene .edge { stroke: var(--foreground); stroke-opacity: .26; stroke-width: 1; fill: none; }
   #coordinate-lift-v1 .lift-scene .new-edge { stroke: var(--viz-series-1); stroke-opacity: .72; stroke-width: 1.5; fill: none; }
@@ -51,6 +62,15 @@
   // BEGIN LIFT MODEL
   const model = (() => {
     const SAMPLE_LIMIT = 729;
+    const DEFAULT_VIEW = Object.freeze({ yaw: .63, pitch: .51, zoom: 1 });
+    const MIN_ZOOM = .25, MAX_ZOOM = 5, MAX_PITCH = Math.PI / 2 - .02;
+    function view(value = {}) {
+      const finite = (key, fallback) => Number.isFinite(value?.[key]) ? value[key] : fallback;
+      const yaw = finite('yaw', DEFAULT_VIEW.yaw);
+      return { yaw: yaw >= -Math.PI && yaw <= Math.PI ? yaw : Math.atan2(Math.sin(yaw), Math.cos(yaw)),
+        pitch: Math.max(-MAX_PITCH, Math.min(MAX_PITCH, finite('pitch', DEFAULT_VIEW.pitch))),
+        zoom: Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, finite('zoom', DEFAULT_VIEW.zoom))) };
+    }
     const sub = value => String(value).replace(/[0-9]/g, x => '₀₁₂₃₄₅₆₇₈₉'[Number(x)]);
     const sup = value => String(value).replace(/[0-9]/g, x => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(x)]);
     const name = i => 'x' + sub(i + 1);
@@ -68,15 +88,21 @@
     function coordinates(n) {
       return Array.from({ length: n }, (_, i) => ({ name: name(i), generator: generator(i) }));
     }
-    // A fixed orthographic camera: n-space -> R^3 -> screen plane.
-    function camera([x, y, z]) {
-      const yaw = .63, pitch = .51;
+    // Rotate the 3D projection only; the original independent coordinates are unchanged.
+    function camera([x, y, z], { yaw, pitch } = DEFAULT_VIEW) {
       const horizontal = Math.cos(yaw) * x - Math.sin(yaw) * y;
       const depth = Math.sin(yaw) * x + Math.cos(yaw) * y;
       return [horizontal, Math.sin(pitch) * depth - Math.cos(pitch) * z,
               Math.cos(pitch) * depth + Math.sin(pitch) * z];
     }
-    function projectedGenerators(items) { return items.map(item => camera(item.generator)); }
+    function projectedGenerators(items, cameraView = DEFAULT_VIEW) { return items.map(item => camera(item.generator, cameraView)); }
+    // An orientation-independent radius prevents automatic zoom changes while rotating.
+    function radius(items, vertices) {
+      const generators = items.map(item => item.generator);
+      if (vertices.length) return Math.max(1.15, ...vertices.map(tuple => Math.hypot(...project(tuple, generators)))) * 1.06;
+      const bounds = [0, 1, 2].map(axis => generators.reduce((sum, g) => sum + Math.abs(g[axis]), 0));
+      return Math.max(1.15, Math.hypot(...bounds)) * 1.06;
+    }
     function project(tuple, generators, fraction = 1) {
       const result = [0, 0, 0];
       for (let i = 0; i < tuple.length; i++) {
@@ -130,7 +156,8 @@
       }
       return points;
     }
-    return { SAMPLE_LIMIT, sub, sup, name, append, coordinates, generator, projectedGenerators,
+    return { SAMPLE_LIMIT, DEFAULT_VIEW, MIN_ZOOM, MAX_ZOOM, MAX_PITCH, view, camera, radius,
+             sub, sup, name, append, coordinates, generator, projectedGenerators,
              project, gridTuples, cube, outline };
   })();
   // END LIFT MODEL
@@ -142,6 +169,8 @@
   const geometry = get('lift-geometry'), axes = get('lift-axes');
   const universe = get('lift-universe'), apply = get('lift-apply'), undo = get('lift-undo');
   let state = { mode: 'real', coordinates: [] };
+  let cameraView = model.view();
+  let drag = null, viewFrame = 0, wheelSaveTimer = 0;
   let animation = 0;
   let latestFraction = 1;
   let scene = null;
@@ -163,22 +192,33 @@
     if (!window.openai?.setWidgetState) return;
     Promise.resolve(window.openai.setWidgetState({
       modelContent: { mode: state.mode, coordinateCount: state.coordinates.length, paperVersion: 'v0.2.0' },
-      privateContent: { version: 1 }
+      privateContent: { version: 2, camera: { ...cameraView } }
     })).catch(() => {});
   }
   function restore(saved) {
     const value = saved?.modelContent;
-    if (!value || saved?.privateContent?.version !== 1 || !['real', 'grid'].includes(value.mode) ||
+    if (!value || ![1, 2].includes(saved?.privateContent?.version) || !['real', 'grid'].includes(value.mode) ||
         !Number.isSafeInteger(value.coordinateCount) || value.coordinateCount < 0) return false;
+    const nextView = model.view(saved.privateContent.version === 2 ? saved.privateContent.camera : undefined);
+    const sameView = ['yaw', 'pitch', 'zoom'].every(key => nextView[key] === cameraView[key]);
     // The host echoes local saves synchronously. Do not cancel their animations.
-    if (value.mode === state.mode && value.coordinateCount === state.coordinates.length) return false;
+    if (value.mode === state.mode && value.coordinateCount === state.coordinates.length && sameView) return false;
+    clearTimeout(wheelSaveTimer);
+    if (drag) {
+      const id = drag.id;
+      drag = null;
+      svg.classList.remove('is-dragging');
+      if (svg.hasPointerCapture(id)) svg.releasePointerCapture(id);
+    }
+    cameraView = nextView;
     state = { mode: value.mode, coordinates: model.coordinates(value.coordinateCount) };
     return true;
   }
   function prepare() {
     const n = state.coordinates.length;
-    const generators = model.projectedGenerators(state.coordinates);
-    scene = { n, generators, grid: state.mode === 'grid' ? model.gridTuples(n) : [], cube: model.cube(n) };
+    const cube = model.cube(n);
+    scene = { n, grid: state.mode === 'grid' ? model.gridTuples(n) : [], cube,
+      radius: model.radius(state.coordinates, cube.vertices) };
     universe.value = state.mode;
     undo.disabled = n === 0;
     get('lift-count').textContent = '独立座標数 ' + n;
@@ -203,13 +243,18 @@
   }
   function draw(fraction = 1) {
     latestFraction = fraction;
-    const { n, generators, grid, cube } = scene;
+    const { n, grid, cube, radius } = scene;
+    const generators = model.projectedGenerators(state.coordinates, cameraView);
     const width = svg.clientWidth || root.clientWidth || 600, height = svg.clientHeight || 340;
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-    const full = model.outline(generators);
-    const maxX = Math.max(1.15, ...full.map(p => Math.abs(p[0])));
-    const maxY = Math.max(.9, ...full.map(p => Math.abs(p[1])));
-    const scale = Math.min((width - 100) / (2 * maxX), (height - 80) / (2 * maxY));
+    const scale = Math.max(1, Math.min(width - 100, height - 80)) / (2 * radius) * cameraView.zoom;
+    root.dataset.viewYaw = cameraView.yaw;
+    root.dataset.viewPitch = cameraView.pitch;
+    root.dataset.viewZoom = cameraView.zoom;
+    root.dataset.viewScale = scale;
+    get('lift-zoom').textContent = Math.round(cameraView.zoom * 100) + '%';
+    get('lift-zoom-out').disabled = cameraView.zoom <= model.MIN_ZOOM;
+    get('lift-zoom-in').disabled = cameraView.zoom >= model.MAX_ZOOM;
     const xy = p => [width / 2 + p[0] * scale, height / 2 + p[1] * scale];
     const line = (p, q, cls) => {
       const a = xy(p), b = xy(q);
@@ -249,8 +294,9 @@
       const start = g.map(v => -v * 1.13 * length), end = g.map(v => v * 1.13 * length);
       labels.append(line(start, end, i === n - 1 ? 'new-axis' : 'axis'));
       const position = xy(end);
-      labels.append(el('text', { x: position[0] + (g[0] >= 0 ? 8 : -8), y: position[1] - 8,
-        'text-anchor': g[0] >= 0 ? 'start' : 'end' }, model.name(i)));
+      const label = model.name(i), halfLabel = label.length * 7;
+      labels.append(el('text', { x: Math.max(halfLabel, Math.min(width - halfLabel, position[0] + (g[0] >= 0 ? 12 : -12))),
+        y: Math.max(18, Math.min(height - 8, position[1] - 8)), 'text-anchor': 'middle' }, label));
     }
     geometry.replaceChildren(shapes);
     axes.replaceChildren(labels);
@@ -268,6 +314,60 @@
     draw(0);
     animation = requestAnimationFrame(frame);
   }
+  function redrawView() {
+    if (!viewFrame) viewFrame = requestAnimationFrame(() => { viewFrame = 0; draw(latestFraction); });
+  }
+  function setView(next, persist = false) {
+    cameraView = model.view(next);
+    redrawView();
+    if (persist) { clearTimeout(wheelSaveTimer); save(); }
+  }
+  function finishDrag(event) {
+    if (!drag || (event?.pointerId !== undefined && event.pointerId !== drag.id)) return;
+    const id = drag.id;
+    drag = null;
+    svg.classList.remove('is-dragging');
+    if (svg.hasPointerCapture(id)) svg.releasePointerCapture(id);
+    clearTimeout(wheelSaveTimer);
+    save();
+  }
+  svg.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || event.isPrimary === false || drag) return;
+    event.preventDefault();
+    drag = { id: event.pointerId, x: event.clientX, y: event.clientY };
+    svg.setPointerCapture(event.pointerId);
+    svg.classList.add('is-dragging');
+  });
+  svg.addEventListener('pointermove', event => {
+    if (!drag || event.pointerId !== drag.id) return;
+    if (event.pointerType === 'mouse' && event.buttons === 0) { finishDrag(event); return; }
+    const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+    drag.x = event.clientX; drag.y = event.clientY;
+    setView({ ...cameraView, yaw: cameraView.yaw + dx * .008, pitch: cameraView.pitch - dy * .008 });
+  });
+  svg.addEventListener('pointerup', finishDrag);
+  svg.addEventListener('pointercancel', finishDrag);
+  svg.addEventListener('lostpointercapture', finishDrag);
+  window.addEventListener('blur', () => finishDrag());
+  svg.addEventListener('wheel', event => {
+    if (!Number.isFinite(event.deltaY) || event.deltaY === 0) return;
+    event.preventDefault();
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? svg.clientHeight : 1;
+    const pixels = Math.max(-1000, Math.min(1000, event.deltaY * unit));
+    setView({ ...cameraView, zoom: cameraView.zoom * Math.exp(-pixels * .0015) });
+    clearTimeout(wheelSaveTimer);
+    wheelSaveTimer = setTimeout(save, 180);
+  }, { passive: false });
+  get('lift-zoom-in').addEventListener('click', () => setView({ ...cameraView, zoom: cameraView.zoom * 1.2 }, true));
+  get('lift-zoom-out').addEventListener('click', () => setView({ ...cameraView, zoom: cameraView.zoom / 1.2 }, true));
+  get('lift-view-reset').addEventListener('click', () => setView(model.DEFAULT_VIEW, true));
+  get('lift-view-reset').addEventListener('keydown', event => {
+    const offsets = { ArrowLeft: [-.12, 0], ArrowRight: [.12, 0], ArrowUp: [0, .12], ArrowDown: [0, -.12] };
+    if (!offsets[event.key]) return;
+    event.preventDefault();
+    const [yaw, pitch] = offsets[event.key];
+    setView({ ...cameraView, yaw: cameraView.yaw + yaw, pitch: cameraView.pitch + pitch }, true);
+  });
   apply.addEventListener('click', () => {
     state.coordinates = model.append(state.coordinates); refresh(true); save();
   });

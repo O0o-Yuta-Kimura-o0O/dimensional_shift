@@ -1,6 +1,7 @@
 # 論文プロジェクトの編集方針
 
 - 著者表記は「木村祐太・GPT-6 Astra（AI）」を維持する。
+- 論文の閲覧入口は `paper/README.md`。原稿・生成物の実体は `output/current/` に保ち、複製の編集対象を作らない。論文の更新時は閲覧入口の版・リンクも確認する。構成変更はルート `CHANGELOG.md` に記録する。
 - `origin/dimensional_shift_01.txt` と `output/reference/dimensional_shift_01_original.txt` は原資料として変更しない。
 - 基準原稿は `output/current/dimensional_shift.typ`（日本語）。定義・仮定・命題・証明・例を変更した場合は `output/current/dimensional_shift_en.typ`（英語）も同時に更新する。
 - 版番号・日付・著者などは `output/current/paper_config.json`、数式は `output/current/equations.json` で共有する。Typst本文では `#m("id")` / `#eq("id")` を使う。

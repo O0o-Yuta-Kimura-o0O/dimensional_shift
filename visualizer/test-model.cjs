@@ -39,6 +39,26 @@ assert.deepEqual(plain(model.coordinates(0)), []);
 assert.deepEqual(plain(model.coordinates(3).map(item => item.generator)),
   [[1, 0, 0], [0, 1, 0], [0, 0, 1]]);
 
+// Camera normalization is stable across persistence echoes, and invalid input is safe.
+const views = [model.DEFAULT_VIEW, { yaw: -2.4, pitch: -.7, zoom: 2 }, { yaw: 3, pitch: 1.5, zoom: .25 }];
+for (const view of views) assert.deepEqual(plain(model.view(model.view(view))), plain(model.view(view)));
+assert.deepEqual(plain(model.view({ yaw: NaN, pitch: Infinity, zoom: 'large' })), plain(model.DEFAULT_VIEW));
+assert.equal(model.view({ zoom: 999, pitch: 999 }).zoom, model.MAX_ZOOM);
+assert.equal(model.view({ zoom: -9, pitch: -999 }).pitch, -model.MAX_PITCH);
+assert.equal(model.view({ zoom: -9 }).zoom, model.MIN_ZOOM);
+assert.ok(Math.abs(model.view({ yaw: 500 }).yaw) <= Math.PI);
+const originalCoordinates = model.coordinates(40), originalSnapshot = plain(originalCoordinates);
+for (const view of views) {
+  const transformed = model.projectedGenerators(originalCoordinates, view);
+  transformed.forEach((g, i) => close(Math.hypot(...g), Math.hypot(...originalCoordinates[i].generator), 'Camera preserves 3D length'));
+  for (let i = 1; i < transformed.length; i++) {
+    const dot3 = (a, b) => a.reduce((sum, v, j) => sum + v * b[j], 0);
+    close(dot3(transformed[i - 1], transformed[i]), dot3(originalCoordinates[i - 1].generator, originalCoordinates[i].generator), 'Camera preserves 3D angles');
+  }
+}
+assert.deepEqual(plain(originalCoordinates), originalSnapshot, 'Camera never edits the mathematical coordinates');
+assert.notDeepEqual(plain(model.projectedGenerators(originalCoordinates, views[0])), plain(model.projectedGenerators(originalCoordinates, views[1])));
+
 // Small discrete grids are the full Cartesian products, including the empty tuple.
 for (const [n, expected] of [[0, 1], [1, 3], [2, 9], [3, 27], [6, 729]]) {
   const tuples = model.gridTuples(n);
@@ -105,6 +125,17 @@ for (let n = 0; n <= 6; n++) {
 }
 assert.deepEqual(plain(model.cube(7)), { vertices: [], edges: [] });
 
+// The fit radius encloses the projection in every camera orientation; it does not
+// depend on yaw/pitch or on the newest-coordinate animation fraction.
+for (const n of [0, 1, 3, 6, 8, 40]) {
+  const items = model.coordinates(n), cube = model.cube(n), radius = model.radius(items, cube.vertices);
+  const tuples = cube.vertices.length ? cube.vertices : model.gridTuples(n);
+  for (const view of views) for (const fraction of [0, .4, 1]) {
+    const generators = model.projectedGenerators(items, view);
+    tuples.forEach(tuple => assert.ok(Math.hypot(...model.project(tuple, generators, fraction)) <= radius + 1e-10));
+  }
+}
+
 // The outline is the exact planar zonotope, not a guessed hull or an exponential sample.
 // Its support in a direction d is sum_i |d dot g_i|, including during the extrusion.
 const directions = Array.from({ length: 37 }, (_, i) => {
@@ -113,8 +144,8 @@ const directions = Array.from({ length: 37 }, (_, i) => {
 });
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
 const support = (points, direction) => Math.max(...points.map(point => dot(point, direction)));
-for (const n of [0, 1, 3, 8, 40]) {
-  const generators = model.projectedGenerators(model.coordinates(n));
+for (const view of views) for (const n of [0, 1, 3, 8, 40]) {
+  const generators = model.projectedGenerators(model.coordinates(n), view);
   for (const fraction of [0, 0.35, 1]) {
     const outline = model.outline(generators, fraction);
     assert.equal(outline.length, n ? 2 * n + 1 : 1);
@@ -150,4 +181,4 @@ for (const n of [0, 1, 3, 8, 39]) {
   p.forEach((value, i) => close(q[i], value, 'Old point retained at extrusion start'));
 }
 
-console.log('PASS: coordinate generation; exact and sampled grids; cube topology; projected convex support; extrusion invariants.');
+console.log('PASS: coordinate generation; exact and sampled grids; cube topology; camera rotations, bounds and stable fit; exact rotated convex support; extrusion invariants.');
