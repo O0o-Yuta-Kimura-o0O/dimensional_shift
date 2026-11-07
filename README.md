@@ -6,7 +6,7 @@
 
 ## 論文を読む
 
-**[論文の入口 → paper/](paper/README.md)** — 最新版 v0.2.0。各言語6ページです。
+**[論文の入口 → paper/](paper/README.md)** — 最新版 v0.2.1。各言語6ページです。
 
 | 言語 | PDF | Markdown | 編集用Typst原稿 |
 |---|---|---|---|

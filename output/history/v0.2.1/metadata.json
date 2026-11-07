@@ -1,0 +1,93 @@
+{
+  "schema_version": 2,
+  "version": "v0.2.1",
+  "git_tag": "v0.2.1",
+  "paper_date": "2026-11-07",
+  "created_at": "2026-11-07T15:51:57+09:00",
+  "timezone": "Asia/Tokyo",
+  "summary": "題名を「集合値の商による零除算の定義と解集合の次元変化」に変更し、副題・要旨・導入・結論を日英で整えた編集上の改訂。定義・命題・証明・数式は維持。日英PDF全12ページの画像確認とMarkdown対応確認を実施。",
+  "authors": [
+    "木村祐太",
+    "GPT-6 Astra（AI）"
+  ],
+  "languages": [
+    "ja",
+    "en"
+  ],
+  "reader_formats": [
+    "pdf",
+    "markdown"
+  ],
+  "rebuild": "Check out the corresponding Git tag to restore shared build scripts and styles.",
+  "files": [
+    {
+      "path": "dimensional_shift.typ",
+      "language": "ja",
+      "format": "typst",
+      "sha256": "1d41f92b0d018c6a4618338c6b2669270636967b574753c395c977a669eef2f7",
+      "bytes": 15688
+    },
+    {
+      "path": "dimensional_shift.pdf",
+      "language": "ja",
+      "format": "pdf",
+      "sha256": "b94507feea42552026ad3e00665afa3c911c69a9fa150a266ab80e6d8ef122c9",
+      "bytes": 361972
+    },
+    {
+      "path": "dimensional_shift.md",
+      "language": "ja",
+      "format": "markdown",
+      "sha256": "9bd665244693bc2e1c30df6e4ece52757f668ec24c467513014e3bce44f53d1c",
+      "bytes": 17716
+    },
+    {
+      "path": "dimensional_shift_en.typ",
+      "language": "en",
+      "format": "typst",
+      "sha256": "93809e9cadb6a970bb339f9e3d85f06dfd8af734dd03311bffa542bfe75dbdb4",
+      "bytes": 16546
+    },
+    {
+      "path": "dimensional_shift_en.pdf",
+      "language": "en",
+      "format": "pdf",
+      "sha256": "81bb4ee71dd02d9ee3ebf0e4fb4f33eeabbc45d033bd25b22e5cde740fb98aee",
+      "bytes": 141061
+    },
+    {
+      "path": "dimensional_shift_en.md",
+      "language": "en",
+      "format": "markdown",
+      "sha256": "bd2ff28902f576c4bb661311e9d464f4cb4e886c3afb95c5a248a263337dbb20",
+      "bytes": 18616
+    },
+    {
+      "path": "paper_config.json",
+      "language": null,
+      "format": "json",
+      "sha256": "4eb228c63f5aa18c39f74b0734ad2fd2737f9bcff7a02a831d2b9c80cf764292",
+      "bytes": 691
+    },
+    {
+      "path": "equations.json",
+      "language": null,
+      "format": "json",
+      "sha256": "969fac126ca4391c5374ba055f48ce9c4650405697e2e16b5ab7db4148e7f9a4",
+      "bytes": 9059
+    },
+    {
+      "path": "discussion/version_map.json",
+      "language": null,
+      "format": "json",
+      "sha256": "8f5f4c3da067907eb03f705c1412bad78f8e0e5cfb9cf763effcbca873d137bb",
+      "bytes": 5722
+    }
+  ],
+  "original_memo": {
+    "path": "origin/dimensional_shift_01.txt",
+    "reference_copy": "output/reference/dimensional_shift_01_original.txt",
+    "sha256": "49804cdfa79e778a9204a81dce46fe201e75e31c69a135cd6ee929534cdd1a47",
+    "bytes": 85563
+  }
+}

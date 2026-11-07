@@ -1,18 +1,18 @@
-# Dimension Extension by Independent Coordinate Generation and Universe-Relative Set-Valued Quotients
+# Defining Division by Zero via Set-Valued Quotients and Dimension Changes in Solution Sets
 
-A framework for variable-length coordinates, division by zero, and discrete grids
+A formulation using preimages, independent coordinate generation, and linear constraints
 
 木村祐太 (Yuta Kimura) · GPT-6 Astra (AI)
 
-2026-11-07 · v0.2.0
+2026-11-07 · v0.2.1
 
-**Abstract.** This paper formulates dimension extension of solution sets around the operation $L_U(n,S):=(n+1,S\times U)$, which generates a new independent coordinate on each application. It recursively extends finite coordinate tuples without fixing an upper bound on their length. A set-valued quotient distinguishes the field $K$ in which arithmetic is performed from the candidate set $U$ for the quotient, giving $Q_U(0,0)=U$ for division of zero by zero. Real numbers, integers, and finite sets can serve as candidate sets within the same framework, while coordinate count, real affine dimension, and axes of discrete choice remain distinct. We relate independent coordinate generation, release of constraints on existing coordinates, and dimension reduction by additional constraints, and give an example of rendering a finite grid in 3D computer graphics. The construction uses standard set theory and linear algebra; it does not require multiplicative inverses of zero or recovery of computational history.
+**Abstract.** This paper defines a quotient as the solution set of a multiplication equation and examines the set-valued results of division by zero and dimension changes in solution sets. Specifying the field $K$ in which arithmetic is performed and the candidate set $U$ for the quotient gives $Q_U(0,0)=U$ and the empty set for division of a nonzero number by zero. Repeated division by zero alone does not create new coordinates, so we separately define the independent coordinate generation operation $L_U(n,S):=(n+1,S\times U)$ and distinguish it from releasing constraints on fixed coordinates. We establish conditions for increasing the dimension of a nonempty real affine space and reducing dimension through linear constraints, and also describe finite-grid generation and display in 3D computer graphics. Coordinate structures extend through any finite number of stages without a fixed maximum coordinate count, while coordinate count, real affine dimension, and axes of discrete choice remain distinct. The formulation uses standard set theory and linear algebra; it does not require a multiplicative inverse of zero or recovery of computational history.
 
-**Keywords.** independent coordinate generation, variable-length coordinates, set-valued quotient, universe, division by zero, discrete grid
+**Keywords.** set-valued quotient, division by zero, solution set, independent coordinate generation, linear constraint, discrete grid
 
 ## 1. Purpose and basic setting
 
-The original note ［1］ proposed treating quotients involving division by zero as either the universe or the empty set, and expanding the value of an expression into points, lines, and planes. The first version formulated this idea using solution sets over the reals. This revision distinguishes releasing constraints on pre-existing axes from generating new axes, and places the latter operation at the center of the framework.
+The original note ［1］ proposed treating quotients involving division by zero as either the universe or the empty set, and expanding the value of an expression into points, lines, and planes. This paper formalizes that idea by combining a definition of division by zero through set-valued quotients with dimension changes in solution sets through independent coordinate generation and constraints. To distinguish repeated division by zero, release of constraints on existing axes, and generation of new axes, we first define coordinate structures and the operation that generates them, then establish their relation to set-valued quotients.
 
 Coordinate generation uses a nonempty set $U$. When quotients are considered from Section 4 onward, the field $K$ for ordinary multiplication is either the real or complex field, and $0\in U\subseteq K$ is assumed. The set $U$ is the universe of possible values for one coordinate; with $n$ current coordinates, the coordinate space is $U^n$. The number zero itself does not carry information about the universe. Instead, $U$ is specified explicitly as part of the context of the operation.
 
@@ -106,7 +106,7 @@ $$
 
 This operation always adds one coordinate. A nonzero coefficient fixes the new coordinate at zero, while a zero coefficient permits all candidates. Definition 2 is the zero-coefficient case.
 
-## 4. Universe-relative set-valued quotients
+## 4. Defining division by zero through set-valued quotients
 
 **Definition 3 (Quotients with a specified candidate set).** Under the assumption $0\in U\subseteq K$, define
 
@@ -268,11 +268,11 @@ $$
 
 Set subtraction on the right chooses elements independently from the two sets. When an expression shares a variable, it is evaluated by extracting the output coordinates from the solution set of simultaneous conditions that preserve that sharing.
 
-This paper explicitly adopts an operation that adds a new independent coordinate. It is not a theorem deduced solely from the two possible values of division by zero. The construction combines two roles: $Q_U(0,0)=U$ supplies all candidates for the new coordinate, and the Cartesian product generates that independent coordinate.
+The set-valued quotient describes the result of division by zero in terms of the existence of solutions to a multiplication equation. Although $Q_U(0,0)=U$ supplies all candidates for a new coordinate, it does not by itself increase the coordinate count. Separately adopting a Cartesian-product operation that adds a new independent coordinate connects the set-valued result of division by zero with coordinate generation. This is not a theorem deriving dimension increase solely from the two possible values of division by zero.
 
 The construction rests on standard set theory, preimages, Cartesian products, and linear algebra. It does not require a multiplicative inverse of zero or recovery of an original dividend. The ability to evaluate expressions as sets does not, by itself, establish continuity or differentiability with respect to coefficients.
 
-Placing independent coordinate generation at the center allows coordinate structures to be extended through any finite number of stages, without requiring a fixed higher-dimensional space at the outset. Real candidates increase the dimension of a nonempty real affine space by one; discrete candidates add a new independent axis of choice. Distinguishing the specified universe, coordinate count, and geometric dimension allows continuous figures and discrete grids to be described by the same generation rule.
+Combining set-valued quotients, independent coordinate generation, and restriction of sets by constraints describes dimension changes in solution sets. Coordinate structures can extend through any finite number of stages without requiring a fixed higher-dimensional space at the outset. If the candidate set is the set of all real numbers, each application of the operation increases the dimension of a nonempty real affine space by one. Dimension reduction through linear constraints depends on their independence on the existing free directions and on the existence of solutions. For discrete candidates, an increase in axes of choice through coordinate addition is distinguished from an increase in real affine dimension.
 
 ## Author contributions
 

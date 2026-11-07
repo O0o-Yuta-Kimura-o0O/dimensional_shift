@@ -76,6 +76,24 @@
       "transcript_url": "https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift/blob/main/output/discussion/transcript-2026-11-07.md"
     },
     {
+      "version": "v0.2.1",
+      "kind": "paper",
+      "tag": "v0.2.1",
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "題名を「集合値の商による零除算の定義と解集合の次元変化」に変更",
+        "副題・要旨・導入・結論を日英で対応させる編集上の改訂",
+        "定義・命題・証明と独立座標生成の規則を維持"
+      ],
+      "source_turn_ids": [],
+      "transcript_message_ordinals": [],
+      "status": "not_exported",
+      "transcript": null,
+      "structured_transcript": null,
+      "public": false,
+      "source_note": "このチャットでのタイトル候補の相談と採用依頼に基づく編集上の要約。既存の逐語記録の収録終点より後のため対話本文は未収録。取得していない発言IDは記載しない。publicは対話本文の公開状態を指す。"
+    },
+    {
       "version": "visualizer-v0.1.0",
       "kind": "source_history",
       "tag": "visualizer-v0.1.0",

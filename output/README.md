@@ -40,7 +40,7 @@ python3 scripts/build_paper.py --preview-dir tmp/pdfs/review
 5. 新しい版番号を使い、確定版を保存します。
 
    ```bash
-   python3 scripts/snapshot.py --version v0.2.1 --summary '変更内容を簡潔に記述'
+   python3 scripts/snapshot.py --version v0.2.2 --summary '変更内容を簡潔に記述'
    ```
 
 6. 差分を確認し、対象ファイルを明示してGitに記録します。
@@ -48,18 +48,18 @@ python3 scripts/build_paper.py --preview-dir tmp/pdfs/review
    ```bash
    git diff --check
    git status --short
-   git add output/current output/history/v0.2.1 output/CHANGELOG.md output/discussion/version_map.json
-   git commit -m 'Revise paper to v0.2.1'
-   git tag -a v0.2.1 -m 'Paper v0.2.1'
+   git add output/current output/history/v0.2.2 output/CHANGELOG.md output/discussion/version_map.json
+   git commit -m 'Revise paper to v0.2.2'
+   git tag -a v0.2.2 -m 'Paper v0.2.2'
    git push origin main
-   git push origin v0.2.1
+   git push origin v0.2.2
    ```
 
 原稿以外も変更した場合は、そのファイルも確認したうえで追加します。共有先に新しいコミットがある場合は、内容を取り込んでからpushします。過去の履歴を上書きするforce pushは通常の運用に含みません。
 
 ## 版番号と検証情報
 
-初版は `v0.1.0`、日英・PDF/Markdown対応版は `v0.2.0`（いずれも2026-11-07）です。文章や誤記の修正では末尾の番号、定義・主張・構成の変更では必要に応じて中位の番号を進めます。版番号は共通設定・変更履歴・保存先・Gitタグでそろえます。
+初版は `v0.1.0`、日英・PDF/Markdown対応版は `v0.2.0`、題名と要旨を整えた最新版は `v0.2.1`（いずれも2026-11-07）です。文章や誤記の修正では末尾の番号、定義・主張・構成の変更では必要に応じて中位の番号を進めます。版番号は共通設定・変更履歴・保存先・Gitタグでそろえます。
 
 `scripts/snapshot.py` は日英のTypst・PDF・Markdown、共通設定、数式辞書の8ファイルを保存します。版対応表がある場合は `discussion/version_map.json` として同じ保存版にコピーします。共通設定との版番号一致、各ファイルの存在、両PDFのヘッダー、原メモと保存用コピーの一致を確認します。
 

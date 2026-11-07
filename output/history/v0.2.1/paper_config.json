@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "version": "v0.2.1",
+  "date": "2026-11-07",
+  "authors": [
+    "木村祐太",
+    "GPT-6 Astra（AI）"
+  ],
+  "titles": {
+    "ja": "集合値の商による零除算の定義と\n解集合の次元変化",
+    "en": "Defining Division by Zero via Set-Valued Quotients\nand Dimension Changes in Solution Sets"
+  },
+  "subtitles": {
+    "ja": "逆像・独立座標生成・線形制約による定式化",
+    "en": "A formulation using preimages, independent coordinate generation, and linear constraints"
+  },
+  "headers": {
+    "ja": "集合値の商と解集合の次元変化",
+    "en": "Set-valued quotients and dimension changes in solution sets"
+  }
+}
