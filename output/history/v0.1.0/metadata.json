@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "version": "v0.1.0",
+  "created_at": "2026-11-07T11:56:39+09:00",
+  "timezone": "Asia/Tokyo",
+  "summary": "集合値の商、独立座標による次元上昇、線形制約による次元低下を定式化した初版",
+  "authors": [
+    "木村祐太",
+    "GPT-6 Astra（AI）"
+  ],
+  "files": [
+    {
+      "path": "dimensional_shift.typ",
+      "sha256": "daea465ea5d81ba6c7ef450978e34c315a7efb8eb776b2737e304c4756953d35",
+      "bytes": 15414
+    },
+    {
+      "path": "dimensional_shift.pdf",
+      "sha256": "62f50b8857104bf3240cb11703aa38a1e8ac136c53cf2af1499861d7939c77c9",
+      "bytes": 326042
+    }
+  ],
+  "original_memo": {
+    "path": "origin/dimensional_shift_01.txt",
+    "reference_copy": "output/reference/dimensional_shift_01_original.txt",
+    "sha256": "49804cdfa79e778a9204a81dce46fe201e75e31c69a135cd6ee929534cdd1a47",
+    "bytes": 85563
+  }
+}

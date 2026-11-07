@@ -1,0 +1,8 @@
+*.pdf binary
+*.typ text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+# Preserve the historical memo byte-for-byte, including its original whitespace.
+origin/dimensional_shift_01.txt -text -whitespace
+output/reference/dimensional_shift_01_original.txt -text -whitespace
