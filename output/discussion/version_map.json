@@ -36,11 +36,11 @@
         10,
         11
       ],
-      "status": "exported_pending_publication",
+      "status": "published_available_range",
       "transcript": "transcript-2026-11-07.md",
       "structured_transcript": "transcript-2026-11-07.json",
-      "public": false,
-      "transcript_url": null
+      "public": true,
+      "transcript_url": "https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift/blob/main/output/discussion/transcript-2026-11-07.md"
     },
     {
       "version": "v0.2.0",
@@ -69,11 +69,11 @@
         20,
         21
       ],
-      "status": "exported_pending_publication",
+      "status": "published_available_range",
       "transcript": "transcript-2026-11-07.md",
       "structured_transcript": "transcript-2026-11-07.json",
-      "public": false,
-      "transcript_url": null
+      "public": true,
+      "transcript_url": "https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift/blob/main/output/discussion/transcript-2026-11-07.md"
     },
     {
       "version": "visualizer-v0.1.0",
@@ -96,12 +96,12 @@
         26,
         27
       ],
-      "status": "exported_pending_publication",
+      "status": "published_available_range",
       "transcript": "transcript-2026-11-07.md",
       "structured_transcript": "transcript-2026-11-07.json",
-      "public": false,
-      "transcript_url": null,
-      "artifact_public": false,
+      "public": true,
+      "transcript_url": "https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift/blob/main/output/discussion/transcript-2026-11-07.md",
+      "artifact_public": true,
       "artifact_policy": "GitHubの過去ソース・コミット・タグは公開してよい。閲覧ページは最新版のみ配信し、旧版のローカル保存も維持する。"
     },
     {
@@ -119,11 +119,11 @@
       "transcript_message_ordinals": [
         28
       ],
-      "status": "exported_pending_publication",
+      "status": "published_available_range",
       "transcript": "transcript-2026-11-07.md",
       "structured_transcript": "transcript-2026-11-07.json",
-      "public": false,
-      "transcript_url": null
+      "public": true,
+      "transcript_url": "https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift/blob/main/output/discussion/transcript-2026-11-07.md"
     }
   ],
   "cross_version_notes": [
