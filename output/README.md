@@ -13,7 +13,7 @@
 | `current/paper_config.json` | 共通の版番号・日付・著者など | 改訂時に更新 |
 | `current/equations.json` | Typst/Markdown共通の数式辞書 | 数式の変更時に更新 |
 | `history/<version>/` | 確定版の成果物・設定・メタデータ | 新しい版を追加。既存版は上書きしない |
-| `discussion/` | 対話記録の将来の管理方針と版対応表 | 対応する版や方針が変わるときに更新 |
+| `discussion/` | 取得範囲を明示した対話記録と版対応表 | 対応する版や方針が変わるときに更新 |
 | `reference/dimensional_shift_01_original.txt` | 受領した原メモの保存用コピー | 変更しない |
 | `reference/editorial_decisions.md` | 原メモからの整理方針 | 方針変更時に記録 |
 | `CHANGELOG.md` | 各版の変更理由と内容 | 版を確定するたびに追記 |
@@ -71,4 +71,4 @@ python3 scripts/build_paper.py --preview-dir tmp/pdfs/review
 
 ## 対話記録の扱い
 
-`discussion/README.md` に将来の逐語記録・公開の方針を定めています。現時点では対話本文をエクスポートしておらず、公開も行っていません。要約である話題対応表を全文記録として扱わないでください。
+`discussion/README.md` に対話の収録範囲・編集方針・公開確認状態を記します。`transcript-2026-11-07.md` と対応するJSONが記録本文です。`version_map.json` は話題要約と版の索引であり、全文記録ではありません。ビジュアライザーの最新版へのリンクは `visualizer.md` にあります。

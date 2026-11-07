@@ -1,33 +1,135 @@
 {
-  "schema_version": 1,
-  "description": "論文版と話題の要約の対応表。対話の逐語記録ではない。",
+  "schema_version": 2,
+  "description": "版・話題要約・取得元発言を対応づける編集用索引。要約は逐語記録ではない。",
+  "source_thread_id": "01a1b3dc-94e8-7f92-b068-2d95bf588f7c",
+  "current_publication_policy": {
+    "source": "公開作業中のユーザーの追加指定。今回の逐語記録の収録終点より後のため、本文に発言として追加していない。",
+    "policy": "閲覧ページは最新版だけを配信する。GitHubの過去ソース・コミット・タグは公開してよい。旧版のローカル保存も維持する。",
+    "is_editorial_metadata": true
+  },
   "versions": [
     {
       "version": "v0.1.0",
+      "kind": "paper",
       "tag": "v0.1.0",
+      "topics_are_editorial_summary": true,
       "topics": [
         "0除算を乗算方程式の解集合として定義",
         "直積による次元上昇と条件による制限",
         "元の引数の復元を要求しない整理",
         "論文化と非公開リポジトリでの履歴管理"
       ],
-      "status": "not_exported",
-      "transcript": null,
-      "public": false
+      "source_turn_ids": [
+        "01a1b3dc-9917-7ae3-97f7-0034397857b0",
+        "01a1b3e7-2ba0-7e80-8780-da1964ce0e05"
+      ],
+      "transcript_message_ordinals": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "status": "exported_pending_publication",
+      "transcript": "transcript-2026-11-07.md",
+      "structured_transcript": "transcript-2026-11-07.json",
+      "public": false,
+      "transcript_url": null
     },
     {
       "version": "v0.2.0",
+      "kind": "paper",
       "tag": "v0.2.0",
+      "topics_are_editorial_summary": true,
       "topics": [
+        "独立座標を必要な都度生成する規則",
         "値の候補集合Uを明示した集合値の商",
-        "新しい独立座標を生成する演算",
         "有限離散格子と座標数・連続的次元の区別",
-        "日英のPDFとMarkdownの対応",
-        "将来の対話記録・公開と論文タグの関連付け"
+        "日英のPDFとMarkdownの対応"
       ],
-      "status": "not_exported",
-      "transcript": null,
-      "public": false
+      "source_turn_ids": [
+        "01a1b3fc-4ac0-72c0-88f2-8ed78caf59a7",
+        "01a1b40f-ec50-73b3-b388-239e44d8e590"
+      ],
+      "transcript_message_ordinals": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "status": "exported_pending_publication",
+      "transcript": "transcript-2026-11-07.md",
+      "structured_transcript": "transcript-2026-11-07.json",
+      "public": false,
+      "transcript_url": null
+    },
+    {
+      "version": "visualizer-v0.1.0",
+      "kind": "source_history",
+      "tag": "visualizer-v0.1.0",
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "Lを適用する対話型表示",
+        "実数と格子の切り替え",
+        "高次元の投影と描画標本数"
+      ],
+      "source_turn_ids": [
+        "01a1b429-4fd2-7843-ae35-325f77d1f464"
+      ],
+      "transcript_message_ordinals": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "status": "exported_pending_publication",
+      "transcript": "transcript-2026-11-07.md",
+      "structured_transcript": "transcript-2026-11-07.json",
+      "public": false,
+      "transcript_url": null,
+      "artifact_public": false,
+      "artifact_policy": "GitHubの過去ソース・コミット・タグは公開してよい。閲覧ページは最新版のみ配信し、旧版のローカル保存も維持する。"
+    },
+    {
+      "version": "publication-request-2026-11-07",
+      "kind": "publication_request",
+      "tag": null,
+      "topics_are_editorial_summary": true,
+      "topics": [
+        "対話記録とGitHubリポジトリの公開依頼",
+        "ビジュアライザーの最新版だけを公開し旧版をローカル保存する方針"
+      ],
+      "source_turn_ids": [
+        "01a1b448-396a-7b92-8cd2-f97c262d9812"
+      ],
+      "transcript_message_ordinals": [
+        28
+      ],
+      "status": "exported_pending_publication",
+      "transcript": "transcript-2026-11-07.md",
+      "structured_transcript": "transcript-2026-11-07.json",
+      "public": false,
+      "transcript_url": null
+    }
+  ],
+  "cross_version_notes": [
+    {
+      "source_turn_id": "01a1b3fc-4ac0-72c0-88f2-8ed78caf59a7",
+      "description": "v0.1.0への問いを受け、v0.2.0の独立座標生成を前面に出す方針につながった移行期の対話。"
     }
   ]
 }

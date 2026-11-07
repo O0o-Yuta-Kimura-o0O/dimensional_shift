@@ -2,7 +2,9 @@
 
 論文 **v0.2.0** の `L_U(n,S)=(n+1,S×U)` を操作して確認する対話用ビジュアライザーです。著者表記は木村祐太・GPT-6 Astra（AI）です。
 
-`coordinate-lift.html` は会話内の表示に使う自己完結したHTMLフラグメントです。ホストのテーマ・共通コントロールを利用します。単独のWebページではなく、公開・ホスティングは行っていません。
+最新版：**visualizer-v0.1.1**。公開URLは https://dimensional-shift-l-visualizer.yummy-pig-6822.chatgpt.site です。
+
+`coordinate-lift.html` は会話内の表示に使うHTMLフラグメントです。`export_site.py` で単独のWebページに書き出して配信します。公開URLでは最新版だけを提供します。GitHubでは過去のソースコードも公開し、閲覧サイトの版切り替えとは区別します。
 
 ## 操作と意味
 
@@ -38,3 +40,15 @@ node visualizer/test-browser.cjs tmp/visualizer/preview.html
 ブラウザーの実行ファイルを指定する場合は `LIFT_BROWSER_PATH` を設定します。テストは個人のブラウザープロファイルを使いません。状態復元、キーボード、狭幅・ダーク表示、100座標までの連続操作、アニメーションも検証します。確認画像は `tmp/visualizer/` に生成され、Gitには含めません。
 
 ビジュアライザーは論文とは別に版管理します。今回の追加によって論文原稿や確定版PDFは変更していません。
+
+## ローカル履歴と公開
+
+`history/<version>/` はローカルだけに保存する確定版のスナップショットです。既存の版は上書きしません。GitHub公開用のファイルには含めません。公開前の全Git履歴も `.local/backups/` に退避しています。
+
+改訂時は `version.json` とこの変更履歴を更新し、検証済みの単独ページを用意してから、プロジェクトルートで次を実行します。
+
+```sh
+python3 scripts/snapshot_visualizer.py --version visualizer-v0.1.2 --site-index .local/visualizer-site/dist/index.html
+```
+
+版番号はその改訂で実際に使う新しい番号を指定してください。スナップショットにはソース、検証コード、単独ページ、SHA-256付きメタデータを保存します。Sitesの作業場所は `.local/visualizer-site/`、Site IDはその `.openai/hosting.json` を参照し、次回も同じ公開URLへ最新版を反映します。公開先の運用上の配信履歴と、ここで保管する旧版は区別します。ユーザーの明示的な指定により、GitHubのソース履歴と過去コードは公開します。公開サイトで旧版へ切り替える機能は設けません。

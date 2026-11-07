@@ -6,3 +6,5 @@ __pycache__/
 tmp/
 output/history/.snapshot-*/
 output/history/.*.lock
+.local/
+visualizer/history/
