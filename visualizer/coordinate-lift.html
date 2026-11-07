@@ -1,0 +1,286 @@
+<div id="coordinate-lift-v1">
+  <h2>独立座標の生成</h2>
+  <div class="viz-controls">
+    <label class="form-label" for="lift-universe">全体集合
+      <select id="lift-universe" class="form-select">
+        <option value="real">実数 ℝ</option>
+        <option value="grid">離散格子 {−1, 0, 1}</option>
+      </select>
+    </label>
+    <div class="viz-row">
+      <button type="button" class="btn btn-primary" id="lift-apply">L を適用 ＋1座標</button>
+      <button type="button" class="btn" id="lift-undo" disabled>1回戻す</button>
+    </div>
+  </div>
+  <div class="viz-row lift-status tabular-nums" aria-live="polite" aria-atomic="true">
+    <span id="lift-count">独立座標数 0</span>
+    <span id="lift-space">全体 ℝ⁰</span>
+    <span id="lift-size">実アフィン次元 0</span>
+  </div>
+  <div class="viz-row text-small text-muted">
+    <span id="lift-window">表示：各座標 −1〜1</span>
+    <span id="lift-projection">0座標・点</span>
+  </div>
+  <svg class="lift-scene" role="img" aria-labelledby="lift-scene-title lift-scene-desc">
+    <title id="lift-scene-title">Lによる独立座標の生成</title>
+    <desc id="lift-scene-desc">初期状態は空の座標列ただ一つからなる点です。</desc>
+    <g id="lift-geometry"></g>
+    <g id="lift-axes"></g>
+  </svg>
+  <div id="lift-coordinates" class="text-small tabular-nums" aria-live="polite">座標列 ()</div>
+</div>
+<style>
+  #coordinate-lift-v1 { display: grid; gap: calc(var(--font-size-base) * .8); color: var(--foreground); }
+  #coordinate-lift-v1 h2 { padding-right: 94px; }
+  #coordinate-lift-v1 .lift-status { gap: calc(var(--font-size-base) * 1.1); }
+  #coordinate-lift-v1 #lift-count { font-weight: 500; }
+  #coordinate-lift-v1 .lift-scene { display: block; width: 100%; height: 340px; overflow: hidden; }
+  #coordinate-lift-v1 .lift-scene .extent { fill: var(--viz-series-1); fill-opacity: .10; stroke: none; }
+  #coordinate-lift-v1 .lift-scene .edge { stroke: var(--foreground); stroke-opacity: .26; stroke-width: 1; fill: none; }
+  #coordinate-lift-v1 .lift-scene .new-edge { stroke: var(--viz-series-1); stroke-opacity: .72; stroke-width: 1.5; fill: none; }
+  #coordinate-lift-v1 .lift-scene .axis { stroke: var(--foreground); stroke-opacity: .35; stroke-width: 1; }
+  #coordinate-lift-v1 .lift-scene .new-axis { stroke: var(--viz-series-1); stroke-opacity: .85; stroke-width: 1.5; }
+  #coordinate-lift-v1 .lift-scene .point { fill: var(--viz-series-1); }
+  #coordinate-lift-v1 .lift-scene text { fill: var(--foreground); font: inherit; }
+  #coordinate-lift-v1 #lift-coordinates { overflow-wrap: anywhere; }
+  @media (max-width: 420px) { #coordinate-lift-v1 .lift-scene { height: 290px; } }
+</style>
+<script>
+(() => {
+  'use strict';
+  // BEGIN LIFT MODEL
+  const model = (() => {
+    const SAMPLE_LIMIT = 729;
+    const sub = value => String(value).replace(/[0-9]/g, x => '₀₁₂₃₄₅₆₇₈₉'[Number(x)]);
+    const sup = value => String(value).replace(/[0-9]/g, x => '⁰¹²³⁴⁵⁶⁷⁸⁹'[Number(x)]);
+    const name = i => 'x' + sub(i + 1);
+    function generator(i) {
+      if (i < 3) return [Number(i === 0), Number(i === 1), Number(i === 2)];
+      const angle = i * Math.PI * (3 - Math.sqrt(5));
+      const z = .75 * Math.sin(i * Math.sqrt(2));
+      const radius = Math.sqrt(1 - z * z);
+      return [radius * Math.cos(angle), radius * Math.sin(angle), z];
+    }
+    function append(coordinates) {
+      const i = coordinates.length;
+      return [...coordinates, { name: name(i), generator: generator(i) }];
+    }
+    function coordinates(n) {
+      return Array.from({ length: n }, (_, i) => ({ name: name(i), generator: generator(i) }));
+    }
+    // A fixed orthographic camera: n-space -> R^3 -> screen plane.
+    function camera([x, y, z]) {
+      const yaw = .63, pitch = .51;
+      const horizontal = Math.cos(yaw) * x - Math.sin(yaw) * y;
+      const depth = Math.sin(yaw) * x + Math.cos(yaw) * y;
+      return [horizontal, Math.sin(pitch) * depth - Math.cos(pitch) * z,
+              Math.cos(pitch) * depth + Math.sin(pitch) * z];
+    }
+    function projectedGenerators(items) { return items.map(item => camera(item.generator)); }
+    function project(tuple, generators, fraction = 1) {
+      const result = [0, 0, 0];
+      for (let i = 0; i < tuple.length; i++) {
+        const factor = tuple[i] * (i === tuple.length - 1 ? fraction : 1);
+        for (let j = 0; j < 3; j++) result[j] += factor * generators[i][j];
+      }
+      return result;
+    }
+    function gridTuples(n) {
+      if (n <= 6) {
+        return Array.from({ length: 3 ** n }, (_, row) => {
+          const result = [];
+          for (let i = 0; i < n; i++) { result.push(row % 3 - 1); row = Math.floor(row / 3); }
+          return result;
+        });
+      }
+      // First six coordinates give distinct rows. Every later coordinate varies.
+      // This is a deterministic subset, never the whole higher-dimensional grid.
+      return Array.from({ length: SAMPLE_LIMIT }, (_, row) => {
+        const tuple = []; let digits = row, seed = (row + 1) >>> 0;
+        for (let i = 0; i < n; i++) {
+          if (i < 6) { tuple.push(digits % 3 - 1); digits = Math.floor(digits / 3); }
+          else { seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5; tuple.push((seed >>> 0) % 3 - 1); }
+        }
+        return tuple;
+      });
+    }
+    function cube(n) {
+      if (n > 6) return { vertices: [], edges: [] };
+      const vertices = Array.from({ length: 2 ** n }, (_, bits) =>
+        Array.from({ length: n }, (_, i) => (bits & (1 << i)) ? 1 : -1));
+      const edges = [];
+      for (let v = 0; v < vertices.length; v++) for (let axis = 0; axis < n; axis++)
+        if (!(v & (1 << axis))) edges.push([v, v | (1 << axis), axis]);
+      return { vertices, edges };
+    }
+    // Exact screen projection of [-1,1]^n, in O(n log n), without 2^n vertices.
+    function outline(generators, fraction = 1) {
+      if (!generators.length) return [[0, 0]];
+      const vectors = generators.map((g, i) => {
+        let x = g[0], y = g[1];
+        if (i === generators.length - 1) { x *= fraction; y *= fraction; }
+        if (y < 0 || (y === 0 && x < 0)) { x = -x; y = -y; }
+        return [x, y];
+      }).sort((a, b) => Math.atan2(a[1], a[0]) - Math.atan2(b[1], b[0]));
+      let x = -vectors.reduce((s, g) => s + g[0], 0);
+      let y = -vectors.reduce((s, g) => s + g[1], 0);
+      const points = [[x, y]];
+      for (const direction of [1, -1]) for (const v of vectors) {
+        x += direction * 2 * v[0]; y += direction * 2 * v[1]; points.push([x, y]);
+      }
+      return points;
+    }
+    return { SAMPLE_LIMIT, sub, sup, name, append, coordinates, generator, projectedGenerators,
+             project, gridTuples, cube, outline };
+  })();
+  // END LIFT MODEL
+
+  const root = document.getElementById('coordinate-lift-v1');
+  if (!root) return;
+  const get = id => root.querySelector('#' + id);
+  const svg = root.querySelector('.lift-scene');
+  const geometry = get('lift-geometry'), axes = get('lift-axes');
+  const universe = get('lift-universe'), apply = get('lift-apply'), undo = get('lift-undo');
+  let state = { mode: 'real', coordinates: [] };
+  let animation = 0;
+  let latestFraction = 1;
+  let scene = null;
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function el(tag, attributes = {}, text) {
+    const node = document.createElementNS(svgNS, tag);
+    for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, String(value));
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  function tupleLabel(tuple) {
+    if (!tuple.length) return '()';
+    if (tuple.length <= 9) return '(' + tuple.join(', ') + ')';
+    return '(' + tuple.slice(0, 4).join(', ') + ', …, ' + tuple.slice(-3).join(', ') + ')';
+  }
+  function save() {
+    if (!window.openai?.setWidgetState) return;
+    Promise.resolve(window.openai.setWidgetState({
+      modelContent: { mode: state.mode, coordinateCount: state.coordinates.length, paperVersion: 'v0.2.0' },
+      privateContent: { version: 1 }
+    })).catch(() => {});
+  }
+  function restore(saved) {
+    const value = saved?.modelContent;
+    if (!value || saved?.privateContent?.version !== 1 || !['real', 'grid'].includes(value.mode) ||
+        !Number.isSafeInteger(value.coordinateCount) || value.coordinateCount < 0) return false;
+    // The host echoes local saves synchronously. Do not cancel their animations.
+    if (value.mode === state.mode && value.coordinateCount === state.coordinates.length) return false;
+    state = { mode: value.mode, coordinates: model.coordinates(value.coordinateCount) };
+    return true;
+  }
+  function prepare() {
+    const n = state.coordinates.length;
+    const generators = model.projectedGenerators(state.coordinates);
+    scene = { n, generators, grid: state.mode === 'grid' ? model.gridTuples(n) : [], cube: model.cube(n) };
+    universe.value = state.mode;
+    undo.disabled = n === 0;
+    get('lift-count').textContent = '独立座標数 ' + n;
+    get('lift-space').textContent = state.mode === 'real' ? '全体 ℝ' + model.sup(n) : '全体 {−1, 0, 1}' + model.sup(n);
+    const total = n <= 20 ? (3 ** n).toLocaleString('ja-JP') : '3' + model.sup(n);
+    get('lift-size').textContent = state.mode === 'real' ? '実アフィン次元 ' + n : '格子点数 ' + total;
+    get('lift-window').textContent = state.mode === 'real'
+      ? '表示：各座標 −1〜1' + (n > 6 ? '・投影の外形' : '')
+      : n <= 6 ? '表示：全 ' + total + ' 点・補助線は座標軸' : '表示：729点の標本／全 ' + total + ' 点';
+    get('lift-projection').textContent = n === 0 ? '0座標・点' : n <= 3
+      ? n + '座標 → 画面' : n + '座標 → 3D → 画面（重なりあり）';
+    let names = state.coordinates.map(item => item.name);
+    if (n > 9) names = [...names.slice(0, 4), '…', ...names.slice(-3)];
+    get('lift-coordinates').textContent = '座標列 (' + names.join(', ') + ')' + (n ? '　最新：' + model.name(n - 1) : '');
+    get('lift-scene-desc').textContent = n === 0 ? '空の座標列ただ一つからなる点。Lを適用すると独立座標を一つ追加します。'
+      : state.mode === 'real'
+        ? '実アフィン次元' + n + 'の実数空間。各座標がマイナス1から1までの範囲を投影しています。'
+        : n + '個の独立座標を持つ離散集合。各座標はマイナス1、0、1です。全体は' + total + '点。線や面による補間はありません。';
+    root.dataset.coordinateCount = n;
+    root.dataset.mode = state.mode;
+    root.dataset.sampleCount = scene.grid.length;
+  }
+  function draw(fraction = 1) {
+    latestFraction = fraction;
+    const { n, generators, grid, cube } = scene;
+    const width = svg.clientWidth || root.clientWidth || 600, height = svg.clientHeight || 340;
+    svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+    const full = model.outline(generators);
+    const maxX = Math.max(1.15, ...full.map(p => Math.abs(p[0])));
+    const maxY = Math.max(.9, ...full.map(p => Math.abs(p[1])));
+    const scale = Math.min((width - 100) / (2 * maxX), (height - 80) / (2 * maxY));
+    const xy = p => [width / 2 + p[0] * scale, height / 2 + p[1] * scale];
+    const line = (p, q, cls) => {
+      const a = xy(p), b = xy(q);
+      return el('line', { x1: a[0], y1: a[1], x2: b[0], y2: b[1], class: cls });
+    };
+    const shapes = document.createDocumentFragment(), labels = document.createDocumentFragment();
+    if (n === 0) {
+      const p = xy([0, 0]);
+      shapes.append(el('circle', { cx: p[0], cy: p[1], r: 6, class: 'point', 'data-tooltip': '空の座標列 ()' }));
+      labels.append(el('text', { x: p[0], y: p[1] + 28, 'text-anchor': 'middle' }, '()'));
+    } else if (state.mode === 'real') {
+      shapes.append(el('polygon', { points: model.outline(generators, fraction).map(p => xy(p).join(',')).join(' '), class: 'extent' }));
+      const vertices = cube.vertices.map(tuple => model.project(tuple, generators, fraction));
+      for (const [a, b, axis] of cube.edges) shapes.append(line(vertices[a], vertices[b], axis === n - 1 ? 'new-edge' : 'edge'));
+    } else {
+      const buckets = new Map();
+      for (const tuple of grid) {
+        const projected = model.project(tuple, generators, fraction), p = xy(projected);
+        const key = Math.round(p[0]) + ':' + Math.round(p[1]);
+        if (!buckets.has(key)) buckets.set(key, { p, depth: projected[2], tuples: [] });
+        buckets.get(key).tuples.push(tuple);
+      }
+      const groups = [...buckets.values()].sort((a, b) => a.depth - b.depth);
+      const maxDepth = Math.max(1, ...groups.map(g => Math.abs(g.depth)));
+      for (const group of groups) {
+        const opacity = .64 + .31 * (group.depth / maxDepth + 1) / 2;
+        let tip = group.tuples.slice(0, 3).map(tupleLabel).join(' / ');
+        if (group.tuples.length > 1) tip = '同じ表示位置：' + group.tuples.length + '点 · ' + tip;
+        if (group.tuples.length > 3) tip += ' …';
+        shapes.append(el('circle', { cx: group.p[0], cy: group.p[1], r: n <= 3 ? 4.7 : 2.8,
+          class: 'point', opacity, 'data-tooltip': tip }));
+      }
+    }
+    const showAxes = n <= 3 ? Array.from({ length: n }, (_, i) => i) : [n - 1];
+    for (const i of showAxes) {
+      const g = generators[i], length = i === n - 1 ? fraction : 1;
+      const start = g.map(v => -v * 1.13 * length), end = g.map(v => v * 1.13 * length);
+      labels.append(line(start, end, i === n - 1 ? 'new-axis' : 'axis'));
+      const position = xy(end);
+      labels.append(el('text', { x: position[0] + (g[0] >= 0 ? 8 : -8), y: position[1] - 8,
+        'text-anchor': g[0] >= 0 ? 'start' : 'end' }, model.name(i)));
+    }
+    geometry.replaceChildren(shapes);
+    axes.replaceChildren(labels);
+  }
+  function refresh(animate = false) {
+    cancelAnimationFrame(animation);
+    prepare();
+    if (!animate || reduced.matches || !state.coordinates.length) { draw(); return; }
+    const start = performance.now();
+    function frame(now) {
+      const t = Math.min(1, (now - start) / 420);
+      draw(1 - (1 - t) ** 3);
+      if (t < 1) animation = requestAnimationFrame(frame);
+    }
+    draw(0);
+    animation = requestAnimationFrame(frame);
+  }
+  apply.addEventListener('click', () => {
+    state.coordinates = model.append(state.coordinates); refresh(true); save();
+  });
+  undo.addEventListener('click', () => {
+    if (!state.coordinates.length) return;
+    state.coordinates = state.coordinates.slice(0, -1); refresh(); save();
+  });
+  universe.addEventListener('change', () => { state.mode = universe.value; refresh(); save(); });
+  window.addEventListener('openai:set_globals', event => {
+    if (restore(event.detail?.globals?.widgetState)) refresh();
+  });
+  restore(window.openai?.widgetState);
+  refresh();
+  new ResizeObserver(() => draw(latestFraction)).observe(svg);
+})();
+</script>

@@ -13,6 +13,7 @@
 - [出力フォルダと改稿手順](output/README.md)
 - [原メモからの整理方針](output/reference/editorial_decisions.md)
 - [将来の対話記録と版の対応方針](output/discussion/README.md)
+- [独立座標生成のビジュアライザー](visualizer/README.md)（対応論文 v0.2.0）
 
 GitHub同期先：[O0o-Yuta-Kimura-o0O/dimensional_shift](https://github.com/O0o-Yuta-Kimura-o0O/dimensional_shift)（非公開）。
 
@@ -27,6 +28,7 @@ output/
   reference/                    原メモの保存用コピーと編集方針
   CHANGELOG.md                  版ごとの変更内容
 scripts/                        組版と版保存の補助スクリプト
+visualizer/                     Lを操作する対話用表示・検証・独自の変更履歴
 ```
 
 `output/current/` は改稿の作業対象です。PDFとMarkdownは各言語のTypst原稿から生成し、共通の数式辞書を使います。Markdownを直接編集しません。日英間の意味の一致は原稿レビューで確認します。
